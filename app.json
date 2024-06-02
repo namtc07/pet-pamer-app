@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "pet-pamper-app",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -31,6 +31,9 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "assets": [
+      "./assets/fonts/"
+    ]
   }
 }
