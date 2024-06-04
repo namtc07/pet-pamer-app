@@ -34,6 +34,15 @@
     },
     "assets": [
       "./assets/fonts/"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "f14bb9fc-c94d-4012-a53b-6f6431b537d1"
+      }
+    },
+    "owner": "namtc07"
   }
 }
