@@ -1,15 +1,9 @@
-import { useNavigation, NavigationProp } from "@react-navigation/native";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-
-type RootStackParamList = {
-  Page: undefined;
-  Signup: undefined;
-};
-
-type PageScreenNavigationProp = NavigationProp<RootStackParamList, "Page">;
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function Page() {
-  const navigation = useNavigation<PageScreenNavigationProp>();
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -17,15 +11,15 @@ export default function Page() {
         <Text style={styles.subtitle}>Taking care of your pet</Text>
       </View>
       <View style={styles.middle}>
-        <Image style={styles.img} source={require("../assets/images/cat_home.png")} />
+        <Image style={styles.img} source={require('../assets/images/cat_home.png')} />
       </View>
       <View style={styles.footer}>
-        <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
+        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
           <View style={styles.signUp}>
             <Text style={styles.textSignUp}>Sign Up</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => alert("Pressed!")}>
+        <TouchableOpacity onPress={() => alert('Pressed!')}>
           <View style={styles.logIn}>
             <Text style={styles.textLogIn}>Log in</Text>
           </View>
@@ -38,32 +32,33 @@ export default function Page() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
+    alignItems: 'center',
     padding: 24,
-    textAlign: "center",
-    display: "flex",
+    textAlign: 'center',
+    display: 'flex',
     gap: 24,
+    backgroundColor: 'white',
   },
   header: {
     paddingTop: 57,
   },
   title: {
     fontSize: 36,
-    fontWeight: "700",
-    color: "#5A2828",
-    textTransform: "uppercase",
+    fontWeight: '700',
+    color: '#5A2828',
+    textTransform: 'uppercase',
     lineHeight: 54,
   },
   subtitle: {
     fontSize: 18,
-    fontWeight: "700",
-    color: "#FF8D4D",
-    textAlign: "center",
+    fontWeight: '700',
+    color: '#FF8D4D',
+    textAlign: 'center',
     lineHeight: 27,
     paddingBottom: 30,
   },
   middle: {
-    alignItems: "center",
+    alignItems: 'center',
   },
   img: {
     width: 343,
@@ -71,40 +66,40 @@ const styles = StyleSheet.create({
   },
   footer: {
     width: 342,
-    display: "flex",
+    display: 'flex',
     gap: 8,
   },
   signUp: {
-    backgroundColor: "white",
-    shadowColor: "#0000001A",
+    backgroundColor: 'white',
+    shadowColor: '#0000001A',
     shadowOpacity: 1,
     shadowRadius: 12,
     borderRadius: 12,
-    width: "100%",
+    width: '100%',
     height: 52,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   textSignUp: {
-    color: "#FF8D4D",
-    textAlign: "center",
+    color: '#FF8D4D',
+    textAlign: 'center',
     fontSize: 18,
-    fontWeight: "700",
+    fontWeight: '700',
     lineHeight: 27,
   },
   logIn: {
-    backgroundColor: "orange",
+    backgroundColor: 'orange',
     borderRadius: 12,
-    width: "100%",
+    width: '100%',
     height: 52,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   textLogIn: {
-    color: "white",
-    textAlign: "center",
+    color: 'white',
+    textAlign: 'center',
     fontSize: 18,
-    fontWeight: "700",
+    fontWeight: '700',
     lineHeight: 27,
   },
 });
