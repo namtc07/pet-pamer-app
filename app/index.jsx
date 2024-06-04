@@ -1,11 +1,13 @@
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StatusbarCustom } from './StatusbarCustom';
 
 export default function Page() {
   const navigation = useNavigation();
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusbarCustom color={'dark-content'} />
       <View style={styles.header}>
         <Text style={styles.title}>Pet pamper</Text>
         <Text style={styles.subtitle}>Taking care of your pet</Text>

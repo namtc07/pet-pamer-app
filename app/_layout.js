@@ -1,5 +1,4 @@
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
 import Page from './index';
 import Signup from './Signup';
 

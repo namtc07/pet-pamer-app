@@ -8,9 +8,13 @@ import {
   SafeAreaView,
   Keyboard,
   TouchableWithoutFeedback,
+  ScrollView,
+  StatusBar,
+  RefreshControl,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign, Feather } from '@expo/vector-icons';
+import { StatusbarCustom } from './StatusbarCustom';
 
 function Signup() {
   const navigation = useNavigation();
@@ -48,16 +52,26 @@ function Signup() {
     // Your sign-up logic here
   };
 
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+  console.log(StatusBar.currentHeight);
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <SafeAreaView style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <View style={styles.iconContainer}>
-              <AntDesign name="left" size={24} color="#FF8D4D" />
-            </View>
-          </TouchableOpacity>
-        </View>
+    <SafeAreaView style={styles.container}>
+      <StatusbarCustom color={'dark-content'} />
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <View style={styles.iconContainer}>
+            <AntDesign name="left" size={24} color="#FF8D4D" />
+          </View>
+        </TouchableOpacity>
+      </View>
+      <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <View style={styles.content}>
           <View>
             <View>
@@ -65,7 +79,11 @@ function Signup() {
             </View>
             <View>
               <TextInput
-                style={[styles.input, !emailValid && email.trim() !== '' && styles.invalidInput]}
+                style={[
+                  styles.input,
+                  emailValid && styles.inputEmail,
+                  !emailValid && email.trim() !== '' && styles.invalidInput,
+                ]}
                 placeholder="Email"
                 placeholderTextColor="#979797"
                 keyboardType="email-address"
@@ -79,7 +97,7 @@ function Signup() {
               )}
               <View style={styles.passwordContainer}>
                 <TextInput
-                  style={styles.input}
+                  style={[styles.input, emailValid && styles.inputPassword]}
                   placeholder="Password"
                   secureTextEntry={!passwordVisible}
                   placeholderTextColor="#979797"
@@ -109,8 +127,18 @@ function Signup() {
             </TouchableOpacity>
           </View>
         </View>
-      </SafeAreaView>
-    </TouchableWithoutFeedback>
+        {/* <View>
+          <Text style={{ fontSize: 42 }}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+            mollit anim id est laborum.
+          </Text>
+        </View> */}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -120,10 +148,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+    paddingTop: StatusBar.currentHeight,
   },
   header: {
     paddingHorizontal: 24,
-    marginBottom: 18,
   },
   iconContainer: {
     width: 32,
@@ -134,6 +162,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: 24,
+    marginTop: 18,
   },
   title: {
     color: '#5A2828',
@@ -153,8 +182,14 @@ const styles = StyleSheet.create({
     color: '#5A2828',
     fontSize: 14,
   },
+  inputEmail: {
+    marginBottom: '0 !important',
+  },
+  inputPassword: {
+    marginBottom: '0 !important',
+  },
   invalidInput: {
-    borderColor: 'red', // Change border color to red if email is invalid
+    borderColor: 'red',
   },
   invalidText: {
     color: 'red',
@@ -166,9 +201,14 @@ const styles = StyleSheet.create({
   },
   eyeIcon: {
     position: 'absolute',
-    right: 20,
+    right: 0,
     top: '50%',
-    transform: [{ translateY: -19 }],
+    transform: [{ translateY: -29 }],
+    paddingStart: 10,
+    paddingEnd: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
+    // backgroundColor: 'red',
   },
   button: {
     borderRadius: 12,
