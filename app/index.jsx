@@ -1,11 +1,11 @@
 import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function Page() {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Pet pamper</Text>
         <Text style={styles.subtitle}>Taking care of your pet</Text>
@@ -25,7 +25,7 @@ export default function Page() {
           </View>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -33,14 +33,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    padding: 24,
     textAlign: 'center',
     display: 'flex',
     gap: 24,
     backgroundColor: 'white',
+    justifyContent: 'center',
   },
   header: {
-    paddingTop: 57,
+    // paddingTop: 57,
   },
   title: {
     fontSize: 36,
