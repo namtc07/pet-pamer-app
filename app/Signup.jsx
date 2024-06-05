@@ -60,7 +60,7 @@ function Signup() {
       setRefreshing(false);
     }, 2000);
   }, []);
-  console.log(StatusBar.currentHeight);
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusbarCustom color={'dark-content'} />
@@ -78,26 +78,24 @@ function Signup() {
               <Text style={styles.title}>Sign up</Text>
             </View>
             <View>
-              <TextInput
-                style={[
-                  styles.input,
-                  emailValid && styles.inputEmail,
-                  !emailValid && email.trim() !== '' && styles.invalidInput,
-                ]}
-                placeholder="Email"
-                placeholderTextColor="#979797"
-                keyboardType="email-address"
-                value={email}
-                onChangeText={handleEmailChange}
-              />
-              {!emailValid && email.trim() !== '' && (
-                <Text style={styles.invalidText}>
-                  Please enter your email address in format: yourname@example.com
-                </Text>
-              )}
+              <View style={[styles.emailContainer]}>
+                <TextInput
+                  style={[styles.input, !emailValid && email.trim() !== '' && styles.invalidInput]}
+                  placeholder="Email"
+                  placeholderTextColor="#979797"
+                  keyboardType="email-address"
+                  value={email}
+                  onChangeText={handleEmailChange}
+                />
+                {!emailValid && email.trim() !== '' && (
+                  <Text style={styles.invalidText}>
+                    Please enter your email address in format: yourname@example.com
+                  </Text>
+                )}
+              </View>
               <View style={styles.passwordContainer}>
                 <TextInput
-                  style={[styles.input, emailValid && styles.inputPassword]}
+                  style={[styles.input]}
                   placeholder="Password"
                   secureTextEntry={!passwordVisible}
                   placeholderTextColor="#979797"
@@ -171,6 +169,9 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginBottom: 18,
   },
+  emailContainer: {
+    marginBottom: 16,
+  },
   input: {
     backgroundColor: '#CBCBCB30',
     height: 52,
@@ -178,15 +179,9 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 12,
     borderColor: 'transparent',
-    marginBottom: 16,
+
     color: '#5A2828',
     fontSize: 14,
-  },
-  inputEmail: {
-    marginBottom: '0 !important',
-  },
-  inputPassword: {
-    marginBottom: '0 !important',
   },
   invalidInput: {
     borderColor: 'red',
@@ -198,12 +193,13 @@ const styles = StyleSheet.create({
   },
   passwordContainer: {
     position: 'relative',
+    marginBottom: 16,
   },
   eyeIcon: {
     position: 'absolute',
     right: 0,
     top: '50%',
-    transform: [{ translateY: -29 }],
+    transform: [{ translateY: -20 }],
     paddingStart: 10,
     paddingEnd: 10,
     paddingTop: 10,
