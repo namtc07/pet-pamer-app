@@ -10,5 +10,11 @@ export const StatusbarCustom = ({ color, ...props }) => {
     setStatusBarStyle(color);
   }, [color]);
 
-  return <StatusBar animated={true} backgroundColor="#61dafb" barStyle={statusBarStyle} />;
+  return (
+    <StatusBar
+      animated={true}
+      // backgroundColor="#61dafb"
+      barStyle={statusBarStyle}
+    />
+  );
 };

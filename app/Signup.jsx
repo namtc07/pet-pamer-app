@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Text,
   View,
@@ -6,23 +6,38 @@ import {
   StyleSheet,
   TextInput,
   SafeAreaView,
-  Keyboard,
-  TouchableWithoutFeedback,
   ScrollView,
   StatusBar,
   RefreshControl,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { AntDesign, Feather } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusbarCustom } from './StatusbarCustom';
 
 function Signup() {
   const navigation = useNavigation();
+  const route = useRoute();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [emailValid, setEmailValid] = useState(true);
+
+  useEffect(() => {
+    const loadStoredData = async () => {
+      const storedEmail = await AsyncStorage.getItem('email');
+      const storedPassword = await AsyncStorage.getItem('password');
+      if (storedEmail) setEmail(storedEmail);
+      if (storedPassword) setPassword(storedPassword);
+    };
+    loadStoredData();
+  }, []);
+
+  useEffect(() => {
+    checkButtonState(email, password);
+    validateEmail(email);
+  }, [email, password]);
 
   const handleEmailChange = (text) => {
     setEmail(text);
@@ -52,20 +67,26 @@ function Signup() {
     // Your sign-up logic here
   };
 
-  const [refreshing, setRefreshing] = React.useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const onRefresh = React.useCallback(() => {
+  const onRefresh = useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
   }, []);
 
+  const handleBackPress = async () => {
+    await AsyncStorage.setItem('email', email);
+    await AsyncStorage.setItem('password', password);
+    navigation.goBack();
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusbarCustom color={'dark-content'} />
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={handleBackPress}>
           <View style={styles.iconContainer}>
             <AntDesign name="left" size={24} color="#FF8D4D" />
           </View>
@@ -88,9 +109,12 @@ function Signup() {
                   onChangeText={handleEmailChange}
                 />
                 {!emailValid && email.trim() !== '' && (
-                  <Text style={styles.invalidText}>
-                    Please enter your email address in format: yourname@example.com
-                  </Text>
+                  <View style={{ paddingLeft: 4 }}>
+                    <Text style={styles.invalidText}>
+                      Please enter your email address in format:
+                    </Text>
+                    <Text style={styles.invalidText}>yourname@example.com</Text>
+                  </View>
                 )}
               </View>
               <View style={styles.passwordContainer}>
@@ -124,16 +148,6 @@ function Signup() {
             </TouchableOpacity>
           </View>
         </View>
-        {/* <View>
-          <Text style={{ fontSize: 42 }}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-            mollit anim id est laborum.
-          </Text>
-        </View> */}
       </ScrollView>
     </SafeAreaView>
   );
@@ -149,6 +163,7 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: 24,
+    paddingTop: StatusBar.currentHeight,
   },
   iconContainer: {
     width: 32,
@@ -188,7 +203,6 @@ const styles = StyleSheet.create({
   invalidText: {
     color: 'red',
     fontSize: 12,
-    marginBottom: 8,
   },
   passwordContainer: {
     position: 'relative',
