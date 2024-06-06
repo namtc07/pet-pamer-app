@@ -36,7 +36,7 @@ function Signup() {
   };
 
   const checkButtonState = (email, password) => {
-    if (email.trim() !== '' && password.trim() !== '') {
+    if (email.trim() !== '' && password.trim() !== '' && emailValid) {
       setButtonDisabled(false);
     } else {
       setButtonDisabled(true);
@@ -99,10 +99,9 @@ function Signup() {
                   placeholder="Password"
                   secureTextEntry={!passwordVisible}
                   placeholderTextColor="#979797"
-                  keyboardType="visible-password"
+                  keyboardType="default"
                   value={password}
                   onChangeText={handlePasswordChange}
-                  e
                 />
                 <TouchableOpacity
                   style={styles.eyeIcon}

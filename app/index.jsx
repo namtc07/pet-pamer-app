@@ -1,6 +1,7 @@
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { StatusbarCustom } from './StatusbarCustom';
+import { Platform } from 'react-native';
 
 export default function Page() {
   const navigation = useNavigation();
@@ -73,9 +74,21 @@ const styles = StyleSheet.create({
   },
   signUp: {
     backgroundColor: 'white',
-    shadowColor: '#0000001A',
-    shadowOpacity: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
     shadowRadius: 12,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 12,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
     borderRadius: 12,
     width: '100%',
     height: 52,
