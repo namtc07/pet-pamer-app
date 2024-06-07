@@ -1,7 +1,7 @@
-import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { StatusbarCustom } from './StatusbarCustom';
-import { Platform } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import PlatformTouchable from './components/PlatformTouchable';
+import { StatusbarCustom } from './components/StatusbarCustom';
 
 export default function Page() {
   const navigation = useNavigation();
@@ -17,16 +17,17 @@ export default function Page() {
         <Image style={styles.img} source={require('../assets/images/cat_home.png')} />
       </View>
       <View style={styles.footer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-          <View style={styles.signUp}>
-            <Text style={styles.textSignUp}>Sign Up</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => alert('Pressed!')}>
-          <View style={styles.logIn}>
-            <Text style={styles.textLogIn}>Log in</Text>
-          </View>
-        </TouchableOpacity>
+        <PlatformTouchable
+          onPress={() => navigation.navigate('Signup')}
+          style={styles.signUp}
+          hasShadow
+          children={<Text style={styles.textSignUp}>Sign Up</Text>}
+        />
+        <PlatformTouchable
+          onPress={() => alert('Pressed!')}
+          style={styles.logIn}
+          children={<Text style={styles.textLogIn}>Log in</Text>}
+        />
       </View>
     </SafeAreaView>
   );
@@ -75,46 +76,14 @@ const styles = StyleSheet.create({
   signUp: {
     backgroundColor: 'white',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 12,
-      },
-      android: {
-        elevation: 5,
-      },
-    }),
-    borderRadius: 12,
-    width: '100%',
-    height: 52,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   textSignUp: {
     color: '#FF8D4D',
-    textAlign: 'center',
-    fontSize: 18,
-    fontWeight: '700',
-    lineHeight: 27,
   },
   logIn: {
     backgroundColor: 'orange',
-    borderRadius: 12,
-    width: '100%',
-    height: 52,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   textLogIn: {
     color: 'white',
-    textAlign: 'center',
-    fontSize: 18,
-    fontWeight: '700',
-    lineHeight: 27,
   },
 });

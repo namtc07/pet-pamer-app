@@ -1,23 +1,25 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import {
-  Text,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  TextInput,
+  RefreshControl,
   SafeAreaView,
   ScrollView,
   StatusBar,
-  RefreshControl,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { AntDesign, Feather } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { StatusbarCustom } from './StatusbarCustom';
+import PlatformTouchable from './components/PlatformTouchable';
+import { StatusbarCustom } from './components/StatusbarCustom';
+import SeparatorCustom from './components/SeparatorCustom';
 
 function Signup() {
   const navigation = useNavigation();
-  const route = useRoute();
+
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -136,16 +138,34 @@ function Signup() {
               </View>
             </View>
           </View>
-          <View>
-            <TouchableOpacity disabled={buttonDisabled} onPress={handleSignUp}>
-              <View
-                style={[styles.button, { backgroundColor: buttonDisabled ? '#CBCBCB' : '#FF8D4D' }]}
-              >
+          <View style={{ paddingTop: 32 }}>
+            <PlatformTouchable
+              disabled={buttonDisabled}
+              onPress={handleSignUp}
+              style={[styles.button, { backgroundColor: buttonDisabled ? '#CBCBCB' : '#FF8D4D' }]}
+              children={
                 <Text style={[styles.textSignUp, { color: buttonDisabled ? '#979797' : 'white' }]}>
                   Sign Up
                 </Text>
-              </View>
-            </TouchableOpacity>
+              }
+            />
+          </View>
+          <View style={{ paddingTop: 32 }}>
+            <SeparatorCustom text="Or" position="middle" propsText={{ fontWeight: '700' }} />
+          </View>
+          <View style={styles.buttonGroup}>
+            <PlatformTouchable
+              style={styles.google}
+              hasShadow
+              children={<Text style={styles.textGoogle}>Google</Text>}
+              icon={<Ionicons name="logo-google" size={24} />}
+            />
+            <PlatformTouchable
+              hasShadow
+              style={styles.facebook}
+              children={<Text style={styles.textFacebook}>Facebook</Text>}
+              icon={<Ionicons name="logo-facebook" size={24} color="blue" />}
+            />
           </View>
         </View>
       </ScrollView>
@@ -217,7 +237,6 @@ const styles = StyleSheet.create({
     paddingEnd: 10,
     paddingTop: 10,
     paddingBottom: 10,
-    // backgroundColor: 'red',
   },
   button: {
     borderRadius: 12,
@@ -229,5 +248,22 @@ const styles = StyleSheet.create({
   textSignUp: {
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  buttonGroup: {
+    paddingVertical: 32,
+    display: 'flex',
+    gap: 18,
+  },
+  google: {
+    backgroundColor: 'white',
+  },
+  facebook: {
+    backgroundColor: 'white',
+  },
+  textGoogle: {
+    color: '#CBCBCB',
+  },
+  textFacebook: {
+    color: '#CBCBCB',
   },
 });
