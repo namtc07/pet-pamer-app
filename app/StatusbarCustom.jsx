@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { StatusBar } from 'react-native';
+// import { StatusBar } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 
 const STYLES = ['default', 'dark-content', 'light-content'];
 
