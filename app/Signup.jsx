@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import { Link, useNavigation } from '@react-navigation/native';
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import {
   RefreshControl,
@@ -12,10 +12,12 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import PlatformTouchable from './components/PlatformTouchable';
 import { StatusbarCustom } from './components/StatusbarCustom';
 import SeparatorCustom from './components/SeparatorCustom';
+import { SvgIcon } from '../assets/images';
 
 function Signup() {
   const navigation = useNavigation();
@@ -88,11 +90,11 @@ function Signup() {
     <SafeAreaView style={styles.container}>
       <StatusbarCustom color={'dark-content'} />
       <View style={styles.header}>
-        <TouchableOpacity onPress={handleBackPress}>
+        <TouchableWithoutFeedback onPress={handleBackPress}>
           <View style={styles.iconContainer}>
             <AntDesign name="left" size={24} color="#FF8D4D" />
           </View>
-        </TouchableOpacity>
+        </TouchableWithoutFeedback>
       </View>
       <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <View style={styles.content}>
@@ -158,14 +160,27 @@ function Signup() {
               style={styles.google}
               hasShadow
               children={<Text style={styles.textGoogle}>Google</Text>}
-              icon={<Ionicons name="logo-google" size={24} />}
+              icon={<SvgIcon.IconGoogle />}
             />
             <PlatformTouchable
               hasShadow
               style={styles.facebook}
               children={<Text style={styles.textFacebook}>Facebook</Text>}
-              icon={<Ionicons name="logo-facebook" size={24} color="blue" />}
+              icon={<SvgIcon.IconFacebook />}
             />
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginTop: 32,
+            }}
+          >
+            <Text style={{ color: '#CBCBCB' }}>Already have an account? </Text>
+            <TouchableOpacity>
+              <Text style={{ color: '#FF8D4D', fontWeight: 600 }}>Log in</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>

@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   footer: {
     width: 342,
     display: 'flex',
-    gap: 8,
+    gap: 18,
   },
   signUp: {
     backgroundColor: 'white',
