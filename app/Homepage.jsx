@@ -28,21 +28,23 @@ function Homepage() {
   const [iconColor, setIconColor] = useState('#ffffff');
   const [colorStatus, setColorStatus] = useState('light-content'); // Cập nhật mặc định
   const [isHeader, setIsHeader] = useState(null);
+
   const handleScroll = (event) => {
     const scrollY = event.nativeEvent.contentOffset.y;
 
-    // if (scrollY < 0) {
-    //   setIsHeader('none');
-    // }
-    if (scrollY > 10) {
+    if (scrollY < 0) {
+      setIsHeader('none');
+    } else if (scrollY > 10) {
       setHeaderBackground('#ffffff');
       setIconColor('#000000');
       setColorStatus('dark-content');
+      setIsHeader('flex'); // Thêm dòng này nếu bạn muốn đảm bảo header luôn hiện khi cuộn xuống
+    } else {
+      setIsHeader('flex');
+      setHeaderBackground('transparent');
+      setIconColor('#ffffff');
+      setColorStatus('light-content');
     }
-    setIsHeader('flex');
-    setHeaderBackground('transparent');
-    setIconColor('#ffffff');
-    setColorStatus('light-content');
   };
 
   return (
