@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import {
+  Animated,
   Dimensions,
   ImageBackground,
   Platform,
+  RefreshControl,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -12,8 +14,9 @@ import {
 } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Images } from '../assets/images'; // Giả sử bạn có nhiều ảnh khác nhau ở đây
+import { Images } from '../assets/images';
 import { StatusbarCustom } from './components/StatusbarCustom';
+import { Button } from 'react-native';
 
 const data = [
   { img: Images.BannerHomepage, key: '1' },
@@ -26,31 +29,66 @@ function Homepage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [headerBackground, setHeaderBackground] = useState('transparent');
   const [iconColor, setIconColor] = useState('#ffffff');
-  const [colorStatus, setColorStatus] = useState('light-content'); // Cập nhật mặc định
-  const [isHeader, setIsHeader] = useState(null);
+  const [colorStatus, setColorStatus] = useState('light');
+
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+
+  const fadeIn = () => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 200,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const fadeOut = () => {
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 50,
+      useNativeDriver: true,
+    }).start();
+  };
 
   const handleScroll = (event) => {
     const scrollY = event.nativeEvent.contentOffset.y;
 
     if (scrollY < 0) {
-      setIsHeader('none');
+      fadeOut();
+      setColorStatus('dark');
     } else if (scrollY > 10) {
+      fadeIn();
       setHeaderBackground('#ffffff');
       setIconColor('#000000');
-      setColorStatus('dark-content');
-      setIsHeader('flex'); // Thêm dòng này nếu bạn muốn đảm bảo header luôn hiện khi cuộn xuống
+      setColorStatus('dark');
     } else {
-      setIsHeader('flex');
+      fadeIn();
       setHeaderBackground('transparent');
       setIconColor('#ffffff');
-      setColorStatus('light-content');
+      setColorStatus('light');
     }
   };
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
 
   return (
     <View style={styles.container}>
       <StatusbarCustom color={colorStatus} />
-      <View style={[styles.header, { backgroundColor: headerBackground, display: isHeader }]}>
+      <Animated.View
+        style={[
+          styles.header,
+          {
+            opacity: fadeAnim,
+          },
+          { backgroundColor: headerBackground },
+        ]}
+      >
         <TextInput style={styles.searchInput} placeholder="Search" placeholderTextColor="#999" />
         <TouchableOpacity style={styles.icon}>
           <Icon name="cart-outline" size={30} color={iconColor} />
@@ -58,8 +96,13 @@ function Homepage() {
         <TouchableOpacity style={styles.icon}>
           <Icon name="notifications-outline" size={30} color={iconColor} />
         </TouchableOpacity>
-      </View>
-      <ScrollView onScroll={handleScroll} scrollEventThrottle={16}>
+      </Animated.View>
+
+      <ScrollView
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      >
         <View style={styles.bannerContainer}>
           <View style={styles.carouselContainer}>
             <Carousel
@@ -67,10 +110,10 @@ function Homepage() {
               width={width}
               height={width / 2}
               autoPlay={true}
-              autoPlayInterval={2000} // Thời gian giữa các slide
+              autoPlayInterval={2000}
               data={data}
               keyExtractor={(item) => item.key}
-              scrollAnimationDuration={1000} // Thời gian animation
+              scrollAnimationDuration={1000}
               onSnapToItem={(index) => setCurrentIndex(index)}
               renderItem={({ item }) => (
                 <View style={styles.imageContainer} key={item?.key}>
