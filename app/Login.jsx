@@ -19,7 +19,7 @@ import { StatusbarCustom } from './components/StatusbarCustom';
 import SeparatorCustom from './components/SeparatorCustom';
 import { SvgIcon } from '../assets/images';
 
-function Signup() {
+function Login() {
   const navigation = useNavigation();
 
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -67,7 +67,7 @@ function Signup() {
     setEmailValid(emailRegex.test(email));
   };
 
-  const handleSignUp = () => {
+  const handleLogin = () => {
     // Your sign-up logic here
   };
 
@@ -100,7 +100,7 @@ function Signup() {
         <View style={styles.content}>
           <View>
             <View>
-              <Text style={styles.title}>Sign up</Text>
+              <Text style={styles.title}>Log in</Text>
             </View>
             <View>
               <View style={[styles.emailContainer]}>
@@ -137,17 +137,22 @@ function Signup() {
                 >
                   <Feather name={passwordVisible ? 'eye' : 'eye-off'} size={22} color="#979797" />
                 </TouchableOpacity>
+                <View style={{ paddingTop: 4, alignItems: 'flex-end' }}>
+                  <TouchableOpacity onPress={() => navigation.navigate()}>
+                    <Text style={{ color: '#FF8D4D', fontWeight: 600 }}>Forgot password?</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           </View>
           <View style={{ paddingTop: 32 }}>
             <PlatformTouchable
               disabled={buttonDisabled}
-              onPress={handleSignUp}
+              onPress={handleLogin}
               style={[styles.button, { backgroundColor: buttonDisabled ? '#CBCBCB' : '#FF8D4D' }]}
               children={
-                <Text style={[styles.textSignUp, { color: buttonDisabled ? '#979797' : 'white' }]}>
-                  Sign Up
+                <Text style={[styles.textLogin, { color: buttonDisabled ? '#979797' : 'white' }]}>
+                  Log in
                 </Text>
               }
             />
@@ -178,8 +183,8 @@ function Signup() {
             }}
           >
             <Text style={{ color: '#CBCBCB' }}>Already have an account? </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-              <Text style={{ color: '#FF8D4D', fontWeight: 600 }}>Log in</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+              <Text style={{ color: '#FF8D4D', fontWeight: 600 }}>Sign up</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -188,7 +193,7 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Login;
 
 const styles = StyleSheet.create({
   container: {
@@ -247,7 +252,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     top: '50%',
-    transform: [{ translateY: -20 }],
+    transform: [{ translateY: -30 }],
     paddingStart: 10,
     paddingEnd: 10,
     paddingTop: 10,
@@ -260,7 +265,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  textSignUp: {
+  textLogin: {
     fontSize: 18,
     fontWeight: 'bold',
   },

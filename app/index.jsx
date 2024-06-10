@@ -24,9 +24,14 @@ export default function Page() {
           children={<Text style={styles.textSignUp}>Sign Up</Text>}
         />
         <PlatformTouchable
-          onPress={() => alert('Pressed!')}
+          onPress={() => navigation.navigate('Login')}
           style={styles.logIn}
           children={<Text style={styles.textLogIn}>Log in</Text>}
+        />
+        <PlatformTouchable
+          onPress={() => navigation.navigate('Homepage')}
+          style={styles.logIn}
+          children={<Text style={styles.textLogIn}>Homepage</Text>}
         />
       </View>
     </SafeAreaView>
