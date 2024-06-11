@@ -5,9 +5,11 @@ import {
   ImageBackground,
   Platform,
   RefreshControl,
+  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
+  Text,
   TextInput,
   TouchableOpacity,
   View,
@@ -16,7 +18,6 @@ import Carousel from 'react-native-reanimated-carousel';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Images } from '../assets/images';
 import { StatusbarCustom } from './components/StatusbarCustom';
-import { Button } from 'react-native';
 
 const data = [
   { img: Images.BannerHomepage, key: '1' },
@@ -27,16 +28,40 @@ const data = [
 function Homepage() {
   const width = Dimensions.get('window').width;
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [headerBackground, setHeaderBackground] = useState('transparent');
   const [iconColor, setIconColor] = useState('#ffffff');
   const [colorStatus, setColorStatus] = useState('light');
 
   const fadeAnim = useRef(new Animated.Value(1)).current;
+  const scrollY = useRef(new Animated.Value(0)).current;
+
+  const backgroundColor = scrollY.interpolate({
+    inputRange: [0, 100],
+    outputRange: ['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 1)'],
+    extrapolate: 'clamp',
+  });
+
+  const handleScroll = (event) => {
+    const y = event.nativeEvent.contentOffset.y;
+    scrollY.setValue(y);
+
+    if (y < 0) {
+      fadeOut();
+      setColorStatus('dark');
+    } else if (y > 10) {
+      fadeIn();
+      setIconColor('#000000');
+      setColorStatus('dark');
+    } else {
+      fadeIn();
+      setIconColor('#ffffff');
+      setColorStatus('light');
+    }
+  };
 
   const fadeIn = () => {
     Animated.timing(fadeAnim, {
       toValue: 1,
-      duration: 200,
+      duration: 100,
       useNativeDriver: true,
     }).start();
   };
@@ -44,28 +69,9 @@ function Homepage() {
   const fadeOut = () => {
     Animated.timing(fadeAnim, {
       toValue: 0,
-      duration: 50,
+      duration: 30,
       useNativeDriver: true,
     }).start();
-  };
-
-  const handleScroll = (event) => {
-    const scrollY = event.nativeEvent.contentOffset.y;
-
-    if (scrollY < 0) {
-      fadeOut();
-      setColorStatus('dark');
-    } else if (scrollY > 10) {
-      fadeIn();
-      setHeaderBackground('#ffffff');
-      setIconColor('#000000');
-      setColorStatus('dark');
-    } else {
-      fadeIn();
-      setHeaderBackground('transparent');
-      setIconColor('#ffffff');
-      setColorStatus('light');
-    }
   };
 
   const [refreshing, setRefreshing] = useState(false);
@@ -84,24 +90,44 @@ function Homepage() {
         style={[
           styles.header,
           {
-            opacity: fadeAnim,
+            backgroundColor,
           },
-          { backgroundColor: headerBackground },
         ]}
       >
-        <TextInput style={styles.searchInput} placeholder="Search" placeholderTextColor="#999" />
-        <TouchableOpacity style={styles.icon}>
-          <Icon name="cart-outline" size={30} color={iconColor} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.icon}>
-          <Icon name="notifications-outline" size={30} color={iconColor} />
-        </TouchableOpacity>
+        <Animated.View
+          style={{ opacity: fadeAnim, flex: 1, flexDirection: 'row', alignItems: 'center' }}
+        >
+          <Icon name="search-outline" size={16} color="#999" style={styles.searchIcon} />
+          <TextInput
+            clearButtonMode="while-editing"
+            style={styles.searchInput}
+            placeholder="Tìm kiếm sản phẩm, dịch vụ,..."
+            placeholderTextColor="#999"
+          />
+          <TouchableOpacity style={styles.icon}>
+            <Icon name="cart-outline" size={24} color={iconColor} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.icon}>
+            <Icon name="notifications-outline" size={24} color={iconColor} />
+          </TouchableOpacity>
+        </Animated.View>
       </Animated.View>
 
       <ScrollView
         onScroll={handleScroll}
         scrollEventThrottle={16}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            enabled={true}
+            progressBackgroundColor="#FF8D4D"
+            tintColor="#FF8D4D"
+            title="Loading..."
+            titleColor="#FF8D4D"
+            colors={['white']}
+          />
+        }
       >
         <View style={styles.bannerContainer}>
           <View style={styles.carouselContainer}>
@@ -110,11 +136,12 @@ function Homepage() {
               width={width}
               height={width / 2}
               autoPlay={true}
-              autoPlayInterval={2000}
+              autoPlayInterval={3000}
               data={data}
               keyExtractor={(item) => item.key}
               scrollAnimationDuration={1000}
               onSnapToItem={(index) => setCurrentIndex(index)}
+              pagingEnabled={true}
               renderItem={({ item }) => (
                 <View style={styles.imageContainer} key={item?.key}>
                   <ImageBackground source={item?.img} resizeMode="cover" style={styles.image} />
@@ -164,11 +191,18 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    height: 40,
+    height: 36,
     backgroundColor: '#f1f1f1',
-    borderRadius: 20,
+    borderRadius: 8,
     paddingHorizontal: 10,
     marginRight: 10,
+    paddingLeft: 30,
+  },
+  searchIcon: {
+    position: 'absolute',
+    top: 14,
+    left: 8,
+    zIndex: 1,
   },
   icon: {
     padding: 10,
@@ -176,7 +210,6 @@ const styles = StyleSheet.create({
   bannerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
     paddingBottom: 20,
   },
   carouselContainer: {
@@ -198,16 +231,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 10,
+    position: 'absolute',
+    bottom: 15,
+    alignSelf: 'center',
   },
   dot: {
-    width: 10,
-    height: 10,
+    width: 8,
+    height: 8,
     borderRadius: 5,
     marginHorizontal: 5,
   },
   activeDot: {
     backgroundColor: '#FF8D4D',
-    width: 20,
+    width: 15,
   },
   inactiveDot: {
     backgroundColor: '#CBCBCB',
