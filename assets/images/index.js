@@ -1,3 +1,5 @@
+import BannerHomepage from './banner.png';
+
 import IconFacebook from './icon-facebook.svg';
 import IconGoogle from './icon-google.svg';
 
@@ -6,4 +8,8 @@ const SvgIcon = {
   IconGoogle,
 };
 
-export { SvgIcon };
+const Images = {
+  BannerHomepage,
+};
+
+export { SvgIcon, Images };

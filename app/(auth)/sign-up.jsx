@@ -14,10 +14,10 @@ import {
   View,
   TouchableWithoutFeedback,
 } from 'react-native';
-import PlatformTouchable from './components/PlatformTouchable';
-import { StatusbarCustom } from './components/StatusbarCustom';
-import SeparatorCustom from './components/SeparatorCustom';
-import { SvgIcon } from '../assets/images';
+import PlatformTouchable from '../../components/PlatformTouchable';
+import { StatusbarCustom } from '../../components/StatusbarCustom';
+import SeparatorCustom from '../../components/SeparatorCustom';
+import { SvgIcon } from '../../assets/images';
 
 function Signup() {
   const navigation = useNavigation();
@@ -174,11 +174,11 @@ function Signup() {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
-              marginTop: 32,
+              paddingVertical: 32,
             }}
           >
             <Text style={{ color: '#CBCBCB' }}>Already have an account? </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
               <Text style={{ color: '#FF8D4D', fontWeight: 600 }}>Log in</Text>
             </TouchableOpacity>
           </View>
