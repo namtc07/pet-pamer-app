@@ -14,12 +14,12 @@ import {
   View,
   TouchableWithoutFeedback,
 } from 'react-native';
-import PlatformTouchable from './components/PlatformTouchable';
-import { StatusbarCustom } from './components/StatusbarCustom';
-import SeparatorCustom from './components/SeparatorCustom';
-import { SvgIcon } from '../assets/images';
+import PlatformTouchable from '../../components/PlatformTouchable';
+import { StatusbarCustom } from '../../components/StatusbarCustom';
+import SeparatorCustom from '../../components/SeparatorCustom';
+import { SvgIcon } from '../../assets/images';
 
-function Login() {
+function Signup() {
   const navigation = useNavigation();
 
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -67,7 +67,7 @@ function Login() {
     setEmailValid(emailRegex.test(email));
   };
 
-  const handleLogin = () => {
+  const handleSignUp = () => {
     // Your sign-up logic here
   };
 
@@ -100,7 +100,7 @@ function Login() {
         <View style={styles.content}>
           <View>
             <View>
-              <Text style={styles.title}>Log in</Text>
+              <Text style={styles.title}>Sign up</Text>
             </View>
             <View>
               <View style={[styles.emailContainer]}>
@@ -137,22 +137,17 @@ function Login() {
                 >
                   <Feather name={passwordVisible ? 'eye' : 'eye-off'} size={22} color="#979797" />
                 </TouchableOpacity>
-                <View style={{ paddingTop: 4, alignItems: 'flex-end' }}>
-                  <TouchableOpacity onPress={() => navigation.navigate()}>
-                    <Text style={{ color: '#FF8D4D', fontWeight: 600 }}>Forgot password?</Text>
-                  </TouchableOpacity>
-                </View>
               </View>
             </View>
           </View>
           <View style={{ paddingTop: 32 }}>
             <PlatformTouchable
               disabled={buttonDisabled}
-              onPress={handleLogin}
+              onPress={handleSignUp}
               style={[styles.button, { backgroundColor: buttonDisabled ? '#CBCBCB' : '#FF8D4D' }]}
               children={
-                <Text style={[styles.textLogin, { color: buttonDisabled ? '#979797' : 'white' }]}>
-                  Log in
+                <Text style={[styles.textSignUp, { color: buttonDisabled ? '#979797' : 'white' }]}>
+                  Sign Up
                 </Text>
               }
             />
@@ -183,8 +178,8 @@ function Login() {
             }}
           >
             <Text style={{ color: '#CBCBCB' }}>Already have an account? </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-              <Text style={{ color: '#FF8D4D', fontWeight: 600 }}>Sign up</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <Text style={{ color: '#FF8D4D', fontWeight: 600 }}>Log in</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -193,7 +188,7 @@ function Login() {
   );
 }
 
-export default Login;
+export default Signup;
 
 const styles = StyleSheet.create({
   container: {
@@ -252,7 +247,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     top: '50%',
-    transform: [{ translateY: -30 }],
+    transform: [{ translateY: -20 }],
     paddingStart: 10,
     paddingEnd: 10,
     paddingTop: 10,
@@ -265,7 +260,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  textLogin: {
+  textSignUp: {
     fontSize: 18,
     fontWeight: 'bold',
   },

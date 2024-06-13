@@ -16,8 +16,8 @@ import {
 } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Images } from '../assets/images';
-import { StatusbarCustom } from './components/StatusbarCustom';
+import { Images } from '../../assets/images';
+import { StatusbarCustom } from '../../components/StatusbarCustom';
 
 const data = [
   { img: Images.BannerHomepage, key: '1' },
@@ -25,7 +25,7 @@ const data = [
   { img: Images.BannerHomepage, key: '3' },
 ];
 
-function Homepage() {
+function Home() {
   const width = Dimensions.get('window').width;
   const [currentIndex, setCurrentIndex] = useState(0);
   const [iconColor, setIconColor] = useState('#ffffff');
@@ -169,7 +169,7 @@ function Homepage() {
   );
 }
 
-export default Homepage;
+export default Home;
 
 const styles = StyleSheet.create({
   container: {
