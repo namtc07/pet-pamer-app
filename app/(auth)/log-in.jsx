@@ -19,6 +19,11 @@ import { StatusbarCustom } from '../../components/StatusbarCustom';
 import SeparatorCustom from '../../components/SeparatorCustom';
 import { SvgIcon } from '../../assets/images';
 
+import * as Facebook from 'expo-auth-session/providers/facebook';
+import * as WebBrowser from 'expo-web-browser';
+
+WebBrowser.maybeCompleteAuthSession();
+
 function Login() {
   const navigation = useNavigation();
 
@@ -27,6 +32,28 @@ function Login() {
   const [password, setPassword] = useState('');
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [emailValid, setEmailValid] = useState(true);
+
+  const [user, setUser] = useState(null);
+  const [request, response, promptAsync] = Facebook.useAuthRequest({
+    clientId: '990707789294253',
+  });
+
+  useEffect(() => {
+    if (response && response.type === 'success' && response.authentication) {
+      console.log(response);
+      // (async () => {
+      //   const userInfoResponse = await fetch('');
+      // })();
+    }
+  }, [response]);
+
+  const handlePressFacebook = async () => {
+    const result = await promptAsync();
+    if (result.type === 'success') {
+      alert('hehehe');
+      return;
+    }
+  };
 
   useEffect(() => {
     const loadStoredData = async () => {
@@ -166,6 +193,7 @@ function Login() {
               hasShadow
               children={<Text style={styles.textGoogle}>Google</Text>}
               icon={<SvgIcon.IconGoogle />}
+              onPress={handlePressFacebook}
             />
             <PlatformTouchable
               hasShadow
