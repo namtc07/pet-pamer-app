@@ -5,11 +5,9 @@ import {
   ImageBackground,
   Platform,
   RefreshControl,
-  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
-  Text,
   TextInput,
   TouchableOpacity,
   View,
@@ -18,12 +16,25 @@ import Carousel from 'react-native-reanimated-carousel';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Images } from '../../assets/images';
 import { StatusbarCustom } from '../../components/StatusbarCustom';
+import gql from 'graphql-tag';
+import { useQuery } from 'react-apollo';
 
-const data = [
+const banners = [
   { img: Images.BannerHomepage, key: '1' },
   { img: Images.BannerHomepage, key: '2' },
   { img: Images.BannerHomepage, key: '3' },
 ];
+
+const QUERY = gql`
+  query GetUserCurrent {
+    user {
+      me {
+        id
+        fullname
+      }
+    }
+  }
+`;
 
 function Home() {
   const width = Dimensions.get('window').width;
@@ -83,6 +94,9 @@ function Home() {
     }, 2000);
   }, []);
 
+  const { data } = useQuery(QUERY);
+  console.log(data);
+
   return (
     <View style={styles.container}>
       <StatusbarCustom color={colorStatus} />
@@ -137,7 +151,7 @@ function Home() {
               height={width / 2}
               autoPlay={true}
               autoPlayInterval={3000}
-              data={data}
+              data={banners}
               keyExtractor={(item) => item.key}
               scrollAnimationDuration={1000}
               onSnapToItem={(index) => setCurrentIndex(index)}
@@ -152,7 +166,7 @@ function Home() {
               }}
             />
             <View style={styles.pagination}>
-              {data.map((_, index) => (
+              {banners.map((_, index) => (
                 <View
                   key={index}
                   style={[

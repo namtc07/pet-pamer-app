@@ -2,7 +2,9 @@ import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import PlatformTouchable from '../components/PlatformTouchable';
 import { StatusbarCustom } from '../components/StatusbarCustom';
 import { router } from 'expo-router';
+
 import '../config/appStyles';
+
 const Welcome = () => {
   return (
     <SafeAreaView style={styles.container}>
