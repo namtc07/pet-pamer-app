@@ -5,7 +5,10 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "pet-pamper-app",
+    "scheme": [
+      "pet-pamper-app",
+      "fb990707789294253"
+    ],
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -30,17 +33,21 @@
     },
     "plugins": [
       "expo-router",
-      "expo-font",
-      [
-        "@react-native-google-signin/google-signin",
-        {
-          "iosUrlScheme": "com.googleusercontent.apps._some_id_here_"
-        }
-      ]
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
     },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "2d53e007-933f-49e2-9714-8ef7d02fe446"
+      }
+    },
     "owner": "namtc07"
   }
 }
+
+
