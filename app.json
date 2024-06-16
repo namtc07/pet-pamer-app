@@ -5,10 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": [
-      "pet-pamper-app",
-      "fb990707789294253"
-    ],
+    "scheme": ["pet-pamper-app"],  // Chỉ giữ lại một scheme
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -49,5 +46,3 @@
     "owner": "namtc07"
   }
 }
-
-

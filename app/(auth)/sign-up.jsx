@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { AntDesign, Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Link, useNavigation } from '@react-navigation/native';
-import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
+import React, { useEffect, useState } from 'react';
 import {
   RefreshControl,
   SafeAreaView,
@@ -11,17 +11,16 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
   TouchableWithoutFeedback,
+  View,
 } from 'react-native';
-import PlatformTouchable from '../../components/PlatformTouchable';
-import { StatusbarCustom } from '../../components/StatusbarCustom';
-import SeparatorCustom from '../../components/SeparatorCustom';
 import { SvgIcon } from '../../assets/images';
+import FacebookLogin from '../../components/FacebookLogin';
+import PlatformTouchable from '../../components/PlatformTouchable';
+import SeparatorCustom from '../../components/SeparatorCustom';
+import { StatusbarCustom } from '../../components/StatusbarCustom';
 
 function Signup() {
-  const navigation = useNavigation();
-
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -71,19 +70,10 @@ function Signup() {
     // Your sign-up logic here
   };
 
-  const [refreshing, setRefreshing] = useState(false);
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
-
   const handleBackPress = async () => {
     await AsyncStorage.setItem('email', email);
     await AsyncStorage.setItem('password', password);
-    navigation.goBack();
+    router.back();
   };
 
   return (
@@ -96,7 +86,7 @@ function Signup() {
           </View>
         </TouchableWithoutFeedback>
       </View>
-      <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+      <ScrollView>
         <View style={styles.content}>
           <View>
             <View>
@@ -162,12 +152,7 @@ function Signup() {
               children={<Text style={styles.textGoogle}>Google</Text>}
               icon={<SvgIcon.IconGoogle />}
             />
-            <PlatformTouchable
-              hasShadow
-              style={styles.facebook}
-              children={<Text style={styles.textFacebook}>Facebook</Text>}
-              icon={<SvgIcon.IconFacebook />}
-            />
+            <FacebookLogin />
           </View>
           <View
             style={{
@@ -178,7 +163,7 @@ function Signup() {
             }}
           >
             <Text style={{ color: '#CBCBCB' }}>Already have an account? </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <TouchableOpacity onPress={() => router.navigate('log-in')}>
               <Text style={{ color: '#FF8D4D', fontWeight: 600 }}>Log in</Text>
             </TouchableOpacity>
           </View>

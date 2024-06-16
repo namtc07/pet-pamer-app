@@ -1,9 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { AntDesign, Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Link, useNavigation } from '@react-navigation/native';
-import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
+import React, { useEffect, useState } from 'react';
 import {
-  RefreshControl,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -11,49 +9,23 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
   TouchableWithoutFeedback,
+  View,
 } from 'react-native';
-import PlatformTouchable from '../../components/PlatformTouchable';
-import { StatusbarCustom } from '../../components/StatusbarCustom';
-import SeparatorCustom from '../../components/SeparatorCustom';
 import { SvgIcon } from '../../assets/images';
+import PlatformTouchable from '../../components/PlatformTouchable';
+import SeparatorCustom from '../../components/SeparatorCustom';
+import { StatusbarCustom } from '../../components/StatusbarCustom';
 
-import * as Facebook from 'expo-auth-session/providers/facebook';
-import * as WebBrowser from 'expo-web-browser';
-
-WebBrowser.maybeCompleteAuthSession();
+import { router } from 'expo-router';
+import FacebookLogin from '../../components/FacebookLogin';
 
 function Login() {
-  const navigation = useNavigation();
-
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [emailValid, setEmailValid] = useState(true);
-
-  const [user, setUser] = useState(null);
-  const [request, response, promptAsync] = Facebook.useAuthRequest({
-    clientId: '990707789294253',
-  });
-
-  useEffect(() => {
-    if (response && response.type === 'success' && response.authentication) {
-      console.log(response);
-      // (async () => {
-      //   const userInfoResponse = await fetch('');
-      // })();
-    }
-  }, [response]);
-
-  const handlePressFacebook = async () => {
-    const result = await promptAsync();
-    if (result.type === 'success') {
-      alert('hehehe');
-      return;
-    }
-  };
 
   useEffect(() => {
     const loadStoredData = async () => {
@@ -98,19 +70,10 @@ function Login() {
     // Your sign-up logic here
   };
 
-  const [refreshing, setRefreshing] = useState(false);
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
-
   const handleBackPress = async () => {
     await AsyncStorage.setItem('email', email);
     await AsyncStorage.setItem('password', password);
-    navigation.goBack();
+    router.back();
   };
 
   return (
@@ -123,7 +86,7 @@ function Login() {
           </View>
         </TouchableWithoutFeedback>
       </View>
-      <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+      <ScrollView>
         <View style={styles.content}>
           <View>
             <View>
@@ -165,7 +128,7 @@ function Login() {
                   <Feather name={passwordVisible ? 'eye' : 'eye-off'} size={22} color="#979797" />
                 </TouchableOpacity>
                 <View style={{ paddingTop: 4, alignItems: 'flex-end' }}>
-                  <TouchableOpacity onPress={() => navigation.navigate()}>
+                  <TouchableOpacity onPress={() => router.navigate()}>
                     <Text style={{ color: '#FF8D4D', fontWeight: 600 }}>Forgot password?</Text>
                   </TouchableOpacity>
                 </View>
@@ -193,14 +156,8 @@ function Login() {
               hasShadow
               children={<Text style={styles.textGoogle}>Google</Text>}
               icon={<SvgIcon.IconGoogle />}
-              onPress={handlePressFacebook}
             />
-            <PlatformTouchable
-              hasShadow
-              style={styles.facebook}
-              children={<Text style={styles.textFacebook}>Facebook</Text>}
-              icon={<SvgIcon.IconFacebook />}
-            />
+            <FacebookLogin />
           </View>
           <View
             style={{
@@ -211,7 +168,7 @@ function Login() {
             }}
           >
             <Text style={{ color: '#CBCBCB' }}>Already have an account? </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+            <TouchableOpacity onPress={() => router.navigate('sign-up')}>
               <Text style={{ color: '#FF8D4D', fontWeight: 600 }}>Sign up</Text>
             </TouchableOpacity>
           </View>

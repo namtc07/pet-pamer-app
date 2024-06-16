@@ -18,6 +18,7 @@ import { Images } from '../../assets/images';
 import { StatusbarCustom } from '../../components/StatusbarCustom';
 import gql from 'graphql-tag';
 import { useQuery } from 'react-apollo';
+import { Text } from 'react-native';
 
 const banners = [
   { img: Images.BannerHomepage, key: '1' },
@@ -95,7 +96,6 @@ function Home() {
   }, []);
 
   const { data } = useQuery(QUERY);
-  console.log(data);
 
   return (
     <View style={styles.container}>
@@ -177,6 +177,9 @@ function Home() {
               ))}
             </View>
           </View>
+        </View>
+        <View>
+          <Text>{data.user.me.fullname}</Text>
         </View>
       </ScrollView>
     </View>
