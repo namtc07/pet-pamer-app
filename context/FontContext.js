@@ -1,7 +1,7 @@
 // context/FontContext.js
 import React, { createContext } from 'react';
 import { useFonts } from 'expo-font';
-import AppLoading from 'expo-app-loading';
+// import AppLoading from 'expo-app-loading';
 
 const FontContext = createContext();
 
@@ -18,9 +18,9 @@ const FontProvider = ({ children }) => {
     'Exo-Thin': require('../assets/fonts/Exo-Thin.ttf'),
   });
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
+  // if (!fontsLoaded) {
+  //   return <AppLoading />;
+  // }
 
   return <FontContext.Provider value={{}}>{children}</FontContext.Provider>;
 };

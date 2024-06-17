@@ -1,6 +1,6 @@
 // global.js
 
-import { setCustomText } from 'react-native-global-props';
+// import { setCustomText } from 'react-native-global-props';
 
 const customTextProps = {
   style: {
@@ -8,4 +8,4 @@ const customTextProps = {
   },
 };
 
-setCustomText(customTextProps);
+// setCustomText(customTextProps);
