@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     color: '#5A2828',
     textTransform: 'uppercase',
     lineHeight: 54,
-    // fontFamily: 'Exo-Bold',
+    fontFamily: 'Exo-Bold',
   },
   subtitle: {
     fontSize: 18,

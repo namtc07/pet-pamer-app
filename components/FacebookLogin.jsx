@@ -1,7 +1,7 @@
 import { Redirect, router } from 'expo-router';
 import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { Platform, StyleSheet, Text } from 'react-native';
 import {
   AccessToken,
   GraphRequest,
@@ -19,8 +19,10 @@ const FacebookLogin = ({ onLoading }) => {
   useEffect(() => {
     const requestTracking = async () => {
       const { status } = await requestTrackingPermissionsAsync();
-      Settings.initializeSDK();
-      if (status === 'granted') {
+      if (Platform.OS === 'ios') {
+        Settings.initializeSDK();
+      }
+      if (status === 'granted' && Platform.OS === 'ios') {
         await Settings.setAdvertiserTrackingEnabled(true);
       }
     };
@@ -30,11 +32,7 @@ const FacebookLogin = ({ onLoading }) => {
   const handleFacebookLogin = async () => {
     try {
       onLoading(true);
-      const result = await LoginManager.logInWithPermissions([
-        'public_profile',
-        'email',
-        'user_gender',
-      ]);
+      const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
       if (result.isCancelled) {
         console.log('Login cancelled');
         onLoading(false);
