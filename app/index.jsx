@@ -1,11 +1,9 @@
-import { useNavigation } from '@react-navigation/native';
 import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import PlatformTouchable from './components/PlatformTouchable';
-import { StatusbarCustom } from './components/StatusbarCustom';
+import PlatformTouchable from '../components/PlatformTouchable';
+import { StatusbarCustom } from '../components/StatusbarCustom';
+import { router } from 'expo-router';
 
-export default function Page() {
-  const navigation = useNavigation();
-
+const Welcome = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusbarCustom color={'dark-content'} />
@@ -18,20 +16,22 @@ export default function Page() {
       </View>
       <View style={styles.footer}>
         <PlatformTouchable
-          onPress={() => navigation.navigate('Signup')}
+          onPress={() => router.navigate('sign-up')}
           style={styles.signUp}
           hasShadow
           children={<Text style={styles.textSignUp}>Sign Up</Text>}
         />
         <PlatformTouchable
-          onPress={() => alert('Pressed!')}
+          onPress={() => router.navigate('log-in')}
           style={styles.logIn}
           children={<Text style={styles.textLogIn}>Log in</Text>}
         />
       </View>
     </SafeAreaView>
   );
-}
+};
+
+export default Welcome;
 
 const styles = StyleSheet.create({
   container: {
@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     color: '#5A2828',
     textTransform: 'uppercase',
     lineHeight: 54,
+    fontFamily: 'Exo-Bold',
   },
   subtitle: {
     fontSize: 18,

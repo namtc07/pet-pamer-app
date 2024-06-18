@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "pet-pamper-app",
+    "scheme": "pet-pamper-app",  // Chỉ giữ lại một scheme
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -29,20 +29,32 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-font",
+      [
+        "react-native-fbsdk-next",
+        {
+          "appID":"2493896137478522",
+          "clientToken":"817e235eaf4b0adff17a78dbb4b28907",
+          "displayName":"Pet Pamper",
+          "scheme":"fb2493896137478522",
+          "advertiserIDCollectionEnabled":false,
+          "autoLogAppEventsEnabled":false,
+          "isAutoInitEnabled":true,
+          "iosUserTrackingPermission":"This identifier will be used to deliver personalized ads to you."
+        }
+      ],
+      "expo-tracking-transparency"
     ],
     "experiments": {
       "typedRoutes": true
     },
-    "assets": [
-      "./assets/fonts/"
-    ],
     "extra": {
       "router": {
         "origin": false
       },
       "eas": {
-        "projectId": "b7a2bcc7-eae9-4670-8551-17b9c3139786"
+        "projectId": "2d53e007-933f-49e2-9714-8ef7d02fe446"
       }
     },
     "owner": "namtc07"

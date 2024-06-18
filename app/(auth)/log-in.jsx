@@ -1,9 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { AntDesign, Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Link, useNavigation } from '@react-navigation/native';
-import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import {
-  RefreshControl,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -11,17 +9,20 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
   TouchableWithoutFeedback,
+  View,
 } from 'react-native';
-import PlatformTouchable from './components/PlatformTouchable';
-import { StatusbarCustom } from './components/StatusbarCustom';
-import SeparatorCustom from './components/SeparatorCustom';
-import { SvgIcon } from '../assets/images';
+import { router } from 'expo-router';
 
-function Signup() {
-  const navigation = useNavigation();
+import { SvgIcon } from '../../assets/images';
+import PlatformTouchable from '../../components/PlatformTouchable';
+import SeparatorCustom from '../../components/SeparatorCustom';
+import { StatusbarCustom } from '../../components/StatusbarCustom';
+import FacebookLogin from '../../components/FacebookLogin';
+import LoaderCustom from '../../components/LoaderCustom';
 
+function Login() {
+  const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -42,6 +43,10 @@ function Signup() {
     checkButtonState(email, password);
     validateEmail(email);
   }, [email, password]);
+
+  const handleGetValueLoading = (value) => {
+    setLoading(value);
+  };
 
   const handleEmailChange = (text) => {
     setEmail(text);
@@ -67,23 +72,14 @@ function Signup() {
     setEmailValid(emailRegex.test(email));
   };
 
-  const handleSignUp = () => {
+  const handleLogin = () => {
     // Your sign-up logic here
   };
-
-  const [refreshing, setRefreshing] = useState(false);
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
 
   const handleBackPress = async () => {
     await AsyncStorage.setItem('email', email);
     await AsyncStorage.setItem('password', password);
-    navigation.goBack();
+    router.back();
   };
 
   return (
@@ -96,11 +92,11 @@ function Signup() {
           </View>
         </TouchableWithoutFeedback>
       </View>
-      <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+      <ScrollView>
         <View style={styles.content}>
           <View>
             <View>
-              <Text style={styles.title}>Sign up</Text>
+              <Text style={styles.title}>Log in</Text>
             </View>
             <View>
               <View style={[styles.emailContainer]}>
@@ -137,17 +133,22 @@ function Signup() {
                 >
                   <Feather name={passwordVisible ? 'eye' : 'eye-off'} size={22} color="#979797" />
                 </TouchableOpacity>
+                <View style={{ paddingTop: 4, alignItems: 'flex-end' }}>
+                  <TouchableOpacity onPress={() => router.navigate()}>
+                    <Text style={{ color: '#FF8D4D', fontWeight: 600 }}>Forgot password?</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           </View>
           <View style={{ paddingTop: 32 }}>
             <PlatformTouchable
               disabled={buttonDisabled}
-              onPress={handleSignUp}
+              onPress={handleLogin}
               style={[styles.button, { backgroundColor: buttonDisabled ? '#CBCBCB' : '#FF8D4D' }]}
               children={
-                <Text style={[styles.textSignUp, { color: buttonDisabled ? '#979797' : 'white' }]}>
-                  Sign Up
+                <Text style={[styles.textLogin, { color: buttonDisabled ? '#979797' : 'white' }]}>
+                  Log in
                 </Text>
               }
             />
@@ -162,33 +163,29 @@ function Signup() {
               children={<Text style={styles.textGoogle}>Google</Text>}
               icon={<SvgIcon.IconGoogle />}
             />
-            <PlatformTouchable
-              hasShadow
-              style={styles.facebook}
-              children={<Text style={styles.textFacebook}>Facebook</Text>}
-              icon={<SvgIcon.IconFacebook />}
-            />
+            <FacebookLogin onLoading={handleGetValueLoading} />
           </View>
           <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
-              marginTop: 32,
+              paddingVertical: 32,
             }}
           >
             <Text style={{ color: '#CBCBCB' }}>Already have an account? </Text>
-            <TouchableOpacity>
-              <Text style={{ color: '#FF8D4D', fontWeight: 600 }}>Log in</Text>
+            <TouchableOpacity onPress={() => router.navigate('sign-up')}>
+              <Text style={{ color: '#FF8D4D', fontWeight: 600 }}>Sign up</Text>
             </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
+      {loading && <LoaderCustom visible={loading} isLoading={loading} />}
     </SafeAreaView>
   );
 }
 
-export default Signup;
+export default Login;
 
 const styles = StyleSheet.create({
   container: {
@@ -247,7 +244,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     top: '50%',
-    transform: [{ translateY: -20 }],
+    transform: [{ translateY: -30 }],
     paddingStart: 10,
     paddingEnd: 10,
     paddingTop: 10,
@@ -260,7 +257,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  textSignUp: {
+  textLogin: {
     fontSize: 18,
     fontWeight: 'bold',
   },
