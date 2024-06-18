@@ -3,8 +3,6 @@ import PlatformTouchable from '../components/PlatformTouchable';
 import { StatusbarCustom } from '../components/StatusbarCustom';
 import { router } from 'expo-router';
 
-import '../config/appStyles';
-
 const Welcome = () => {
   return (
     <SafeAreaView style={styles.container}>
@@ -54,7 +52,7 @@ const styles = StyleSheet.create({
     color: '#5A2828',
     textTransform: 'uppercase',
     lineHeight: 54,
-    fontFamily: 'Exo-Bold',
+    // fontFamily: 'Exo-Bold',
   },
   subtitle: {
     fontSize: 18,
