@@ -5,13 +5,13 @@ const TabLayout = () => {
     <>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: '#FFA001',
-          tabBarInactiveTintColor: '#CDCDE0',
-          tabBarShowLabel: false,
+          // tabBarActiveTintColor: '#FFA001',
+          // tabBarInactiveTintColor: '#CDCDE0',
+          // tabBarShowLabel: false,
           tabBarStyle: {
-            backgroundColor: '#161622',
+            // backgroundColor: '#161622',
             borderTopWidth: 1,
-            borderTopColor: '#232533',
+            // borderTopColor: '#232533',
             height: 84,
           },
         }}
@@ -20,6 +20,13 @@ const TabLayout = () => {
           name="home"
           options={{
             title: 'Home',
+            headerShown: false,
+          }}
+        />
+        <Tabs.Screen
+          name="settings"
+          options={{
+            title: 'Settings',
             headerShown: false,
           }}
         />

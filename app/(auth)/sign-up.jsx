@@ -3,7 +3,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
-  RefreshControl,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -16,11 +15,13 @@ import {
 } from 'react-native';
 import { SvgIcon } from '../../assets/images';
 import FacebookLogin from '../../components/FacebookLogin';
+import LoaderCustom from '../../components/LoaderCustom';
 import PlatformTouchable from '../../components/PlatformTouchable';
 import SeparatorCustom from '../../components/SeparatorCustom';
 import { StatusbarCustom } from '../../components/StatusbarCustom';
 
 function Signup() {
+  const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -41,6 +42,10 @@ function Signup() {
     checkButtonState(email, password);
     validateEmail(email);
   }, [email, password]);
+
+  const handleGetValueLoading = (value) => {
+    setLoading(value);
+  };
 
   const handleEmailChange = (text) => {
     setEmail(text);
@@ -152,7 +157,7 @@ function Signup() {
               children={<Text style={styles.textGoogle}>Google</Text>}
               icon={<SvgIcon.IconGoogle />}
             />
-            <FacebookLogin />
+            <FacebookLogin onLoading={handleGetValueLoading} />
           </View>
           <View
             style={{
@@ -169,6 +174,7 @@ function Signup() {
           </View>
         </View>
       </ScrollView>
+      {loading && <LoaderCustom visible={loading} isLoading={loading} />}
     </SafeAreaView>
   );
 }

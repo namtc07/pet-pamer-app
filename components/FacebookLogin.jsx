@@ -1,66 +1,90 @@
+import { Redirect, router } from 'expo-router';
+import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
 import React, { useEffect, useState } from 'react';
-import * as Facebook from 'expo-auth-session/providers/facebook';
-import { Alert, StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
+import {
+  AccessToken,
+  GraphRequest,
+  GraphRequestManager,
+  LoginManager,
+  Settings,
+} from 'react-native-fbsdk-next';
 import { SvgIcon } from '../assets/images';
 import PlatformTouchable from './PlatformTouchable';
-import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
-import { AccessToken, LoginButton, Settings } from 'react-native-fbsdk-next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const FacebookLogin = () => {
+const FacebookLogin = ({ onLoading }) => {
   const [user, setUser] = useState(null);
-  const [request, response, promptAsync] = Facebook.useAuthRequest({
-    clientId: '477086288337851',
-    redirectUri: 'https://auth.expo.io/@namtc07/pet-pamper-app', // URI chuyển hướng
-  });
 
-  // useEffect(() => {
-  //   if (response) {
-  //     console.log('Response: ', response); // In ra response để kiểm tra chi tiết
-  //     if (response.type === 'success' && response.authentication) {
-  //       (async () => {
-  //         try {
-  //           const userInfoResponse = await fetch(
-  //             `https://graph.facebook.com/me?access_token=${response.authentication.accessToken}&fields=id,name`
-  //           );
-  //           const userInfo = await userInfoResponse.json();
-  //           setUser(userInfo);
-  //         } catch (error) {
-  //           console.error('Failed to fetch user info: ', error);
-  //           Alert.alert('Error', 'Failed to fetch user info. Please try again.');
-  //         }
-  //       })();
-  //     } else {
-  //       Alert.alert('Error', 'Something went wrong trying to finish signing in.');
-  //     }
-  //   }
-  // }, [response]);
+  useEffect(() => {
+    const requestTracking = async () => {
+      const { status } = await requestTrackingPermissionsAsync();
+      Settings.initializeSDK();
+      if (status === 'granted') {
+        await Settings.setAdvertiserTrackingEnabled(true);
+      }
+    };
+    requestTracking();
+  }, []);
 
-  // const handlePressFacebook = async () => {
-  //   const result = await promptAsync();
-  //   if (result.type !== 'success') {
-  //     Alert.alert('Login Failed', 'Unable to login with Facebook. Please try again later.');
-  //   }
-  // };
+  const handleFacebookLogin = async () => {
+    try {
+      onLoading(true);
+      const result = await LoginManager.logInWithPermissions([
+        'public_profile',
+        'email',
+        'user_gender',
+      ]);
+      if (result.isCancelled) {
+        console.log('Login cancelled');
+        onLoading(false);
+      } else {
+        const data = await AccessToken.getCurrentAccessToken();
+        if (!data) {
+          throw new Error('Something went wrong obtaining access token');
+        }
+        const accessToken = data.accessToken;
+        const responseInfoCallback = async (error, result) => {
+          if (error) {
+            console.log('Error fetching data: ', error.toString());
+          } else {
+            setUser(result);
+            await AsyncStorage.setItem('userToken', accessToken);
+            await AsyncStorage.setItem('userData', JSON.stringify(result));
+            router.navigate('home');
+          }
+          onLoading(false);
+        };
+
+        const infoRequest = new GraphRequest(
+          '/me',
+          {
+            accessToken,
+            parameters: {
+              fields: {
+                string: 'id, name, email, picture',
+              },
+            },
+          },
+          responseInfoCallback
+        );
+
+        new GraphRequestManager().addRequest(infoRequest).start();
+      }
+    } catch (error) {
+      console.log('Login failed with error: ' + error);
+      onLoading(false);
+    }
+  };
 
   return (
-    <View>
-      <LoginButton
-        onLogoutFinished={() => console.log('Logged out')}
-        onLoginFinished={(error, data) => {
-          console.log(error, data);
-          AccessToken.getCurrentAccessToken().then((data) => {
-            console.log(data);
-          });
-        }}
-      />
-    </View>
-    // <PlatformTouchable
-    //   hasShadow
-    //   style={styles.facebook}
-    //   children={<Text style={styles.textFacebook}>Facebook</Text>}
-    //   icon={<SvgIcon.IconFacebook />}
-    //   onPress={() => handlePressFacebook()}
-    // />
+    <PlatformTouchable
+      hasShadow
+      style={styles.facebook}
+      onPress={handleFacebookLogin}
+      children={<Text style={styles.textFacebook}>Facebook</Text>}
+      icon={<SvgIcon.IconFacebook />}
+    />
   );
 };
 

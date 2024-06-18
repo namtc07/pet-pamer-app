@@ -1,6 +1,6 @@
+import React, { useEffect, useState } from 'react';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -12,15 +12,17 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
+import { router } from 'expo-router';
+
 import { SvgIcon } from '../../assets/images';
 import PlatformTouchable from '../../components/PlatformTouchable';
 import SeparatorCustom from '../../components/SeparatorCustom';
 import { StatusbarCustom } from '../../components/StatusbarCustom';
-
-import { router } from 'expo-router';
 import FacebookLogin from '../../components/FacebookLogin';
+import LoaderCustom from '../../components/LoaderCustom';
 
 function Login() {
+  const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -41,6 +43,10 @@ function Login() {
     checkButtonState(email, password);
     validateEmail(email);
   }, [email, password]);
+
+  const handleGetValueLoading = (value) => {
+    setLoading(value);
+  };
 
   const handleEmailChange = (text) => {
     setEmail(text);
@@ -157,7 +163,7 @@ function Login() {
               children={<Text style={styles.textGoogle}>Google</Text>}
               icon={<SvgIcon.IconGoogle />}
             />
-            <FacebookLogin />
+            <FacebookLogin onLoading={handleGetValueLoading} />
           </View>
           <View
             style={{
@@ -174,6 +180,7 @@ function Login() {
           </View>
         </View>
       </ScrollView>
+      {loading && <LoaderCustom visible={loading} isLoading={loading} />}
     </SafeAreaView>
   );
 }

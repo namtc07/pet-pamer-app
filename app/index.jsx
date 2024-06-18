@@ -28,11 +28,6 @@ const Welcome = () => {
           style={styles.logIn}
           children={<Text style={styles.textLogIn}>Log in</Text>}
         />
-        <PlatformTouchable
-          onPress={() => router.navigate('home')}
-          style={styles.logIn}
-          children={<Text style={styles.textLogIn}>Homepage</Text>}
-        />
       </View>
     </SafeAreaView>
   );
