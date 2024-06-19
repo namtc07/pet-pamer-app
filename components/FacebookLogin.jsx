@@ -32,7 +32,10 @@ const FacebookLogin = ({ onLoading }) => {
   const handleFacebookLogin = async () => {
     try {
       onLoading(true);
-      const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
+      const result = await LoginManager.logInWithPermissions([
+        'public_profile',
+        'email',
+      ]);
       if (result.isCancelled) {
         console.log('Login cancelled');
         onLoading(false);
@@ -64,7 +67,7 @@ const FacebookLogin = ({ onLoading }) => {
               },
             },
           },
-          responseInfoCallback
+          responseInfoCallback,
         );
 
         new GraphRequestManager().addRequest(infoRequest).start();
