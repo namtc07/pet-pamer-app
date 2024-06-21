@@ -15,7 +15,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const FacebookLogin = ({ onLoading }) => {
   const [user, setUser] = useState(null);
-
+  // console.log(object);
   useEffect(() => {
     const requestTracking = async () => {
       const { status } = await requestTrackingPermissionsAsync();
