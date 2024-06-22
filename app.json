@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "pet-pamper-app",  // Chỉ giữ lại một scheme
+    "scheme": "pet-pamper-app",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -14,7 +14,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.namtc07.petpamperapp"
+      "bundleIdentifier": "com.namtc07.petpamperapp",
+      "infoPlist": {
+        "NSUserTrackingUsageDescription": "This identifier will be used to deliver personalized ads to you."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -34,14 +37,14 @@
       [
         "react-native-fbsdk-next",
         {
-          "appID":"2493896137478522",
-          "clientToken":"817e235eaf4b0adff17a78dbb4b28907",
-          "displayName":"Pet Pamper",
-          "scheme":"fb2493896137478522",
-          "advertiserIDCollectionEnabled":false,
-          "autoLogAppEventsEnabled":false,
-          "isAutoInitEnabled":true,
-          "iosUserTrackingPermission":"This identifier will be used to deliver personalized ads to you."
+          "appID": "2493896137478522",
+          "clientToken": "817e235eaf4b0adff17a78dbb4b28907",
+          "displayName": "Pet Pamper",
+          "scheme": "fb2493896137478522",
+          "advertiserIDCollectionEnabled": false,
+          "autoLogAppEventsEnabled": false,
+          "isAutoInitEnabled": true,
+          "iosUserTrackingPermission": "This identifier will be used to deliver personalized ads to you."
         }
       ],
       "expo-tracking-transparency"

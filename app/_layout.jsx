@@ -1,17 +1,13 @@
+import 'expo-dev-client';
+import 'react-native-url-polyfill/auto';
 import { SplashScreen, Stack } from 'expo-router';
-import { FontProvider } from '../context/FontContext';
-
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
 import { setContext } from 'apollo-link-context';
 import { createHttpLink } from 'apollo-link-http';
-
-import 'react-native-url-polyfill/auto';
-
-import { ApolloProvider } from 'react-apollo';
-import 'expo-dev-client';
 import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
+import { ApolloProvider } from 'react-apollo';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -65,18 +61,16 @@ const RootLayout = () => {
   }
   return (
     <ApolloProvider client={client}>
-      <FontProvider>
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            gestureEnabled: true,
-          }}
-        >
-          <Stack.Screen name="index" />
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        </Stack>
-      </FontProvider>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          gestureEnabled: true,
+        }}
+      >
+        <Stack.Screen name="index" />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      </Stack>
     </ApolloProvider>
   );
 };
