@@ -8,29 +8,6 @@ import {
   View,
 } from 'react-native';
 
-const PlatformTouchable = ({ onPress, children, style, disabled, hasShadow, icon }) => {
-  const ButtonComponent = Platform.OS === 'ios' ? TouchableOpacity : TouchableNativeFeedback;
-
-  const buttonStyle = [commonStyles.button, style, hasShadow ? commonStyles.shadow : null];
-
-  return (
-    <ButtonComponent
-      onPress={onPress}
-      disabled={disabled}
-      background={TouchableNativeFeedback.Ripple(5)}
-    >
-      <View style={buttonStyle}>
-        {icon && <View style={commonStyles.icon}>{icon}</View>}
-        <View style={commonStyles.textContainer}>
-          <Text style={[commonStyles.text, icon && { paddingRight: 32 }]}>{children}</Text>
-        </View>
-      </View>
-    </ButtonComponent>
-  );
-};
-
-export default PlatformTouchable;
-
 const commonStyles = StyleSheet.create({
   button: {
     borderRadius: 12,
@@ -69,3 +46,40 @@ const commonStyles = StyleSheet.create({
     height: 24,
   },
 });
+
+function PlatformTouchable({
+  onPress,
+  children,
+  style,
+  disabled,
+  hasShadow,
+  icon,
+}) {
+  const ButtonComponent =
+    Platform.OS === 'ios' ? TouchableOpacity : TouchableNativeFeedback;
+
+  const buttonStyle = [
+    commonStyles.button,
+    style,
+    hasShadow ? commonStyles.shadow : null,
+  ];
+
+  return (
+    <ButtonComponent
+      onPress={onPress}
+      disabled={disabled}
+      background={TouchableNativeFeedback.Ripple(5)}
+    >
+      <View style={buttonStyle}>
+        {icon && <View style={commonStyles.icon}>{icon}</View>}
+        <View style={commonStyles.textContainer}>
+          <Text style={[commonStyles.text, icon && { paddingRight: 32 }]}>
+            {children}
+          </Text>
+        </View>
+      </View>
+    </ButtonComponent>
+  );
+}
+
+export default PlatformTouchable;

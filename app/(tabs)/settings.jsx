@@ -9,9 +9,11 @@ import {
   View,
 } from 'react-native';
 import { LoginManager } from 'react-native-fbsdk-next';
-import PlatformTouchable from '../../components/PlatformTouchable';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import PlatformTouchable from '../../components/PlatformTouchable';
+
+const styles = StyleSheet.create({});
 
 function Settings() {
   const handleFacebookLogout = async () => {
@@ -53,7 +55,7 @@ function Settings() {
         <RefreshControl
           refreshing={refreshing}
           onRefresh={onRefresh}
-          enabled={true}
+          enabled
           progressBackgroundColor="#FF8D4D"
           tintColor="#FF8D4D"
           title="Loading..."
@@ -87,5 +89,3 @@ function Settings() {
 }
 
 export default Settings;
-
-const styles = StyleSheet.create({});

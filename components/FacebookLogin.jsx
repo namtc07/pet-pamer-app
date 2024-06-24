@@ -1,4 +1,5 @@
-import { Redirect, router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { router } from 'expo-router';
 import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
 import React, { useEffect, useState } from 'react';
 import { Platform, StyleSheet, Text } from 'react-native';
@@ -11,11 +12,19 @@ import {
 } from 'react-native-fbsdk-next';
 import { SvgIcon } from '../assets/images';
 import PlatformTouchable from './PlatformTouchable';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const FacebookLogin = ({ onLoading }) => {
+const styles = StyleSheet.create({
+  facebook: {
+    backgroundColor: 'white',
+  },
+  textFacebook: {
+    color: '#CBCBCB',
+  },
+});
+
+function FacebookLogin({ onLoading }) {
   const [user, setUser] = useState(null);
-  // console.log(object);
+
   useEffect(() => {
     const requestTracking = async () => {
       const { status } = await requestTrackingPermissionsAsync();
@@ -44,7 +53,7 @@ const FacebookLogin = ({ onLoading }) => {
         if (!data) {
           throw new Error('Something went wrong obtaining access token');
         }
-        const accessToken = data.accessToken;
+        const { accessToken } = data;
         const responseInfoCallback = async (error, result) => {
           if (error) {
             console.log('Error fetching data: ', error.toString());
@@ -73,7 +82,7 @@ const FacebookLogin = ({ onLoading }) => {
         new GraphRequestManager().addRequest(infoRequest).start();
       }
     } catch (error) {
-      console.log('Login failed with error: ' + error);
+      console.log(`Login failed with error: ${error}`);
       onLoading(false);
     }
   };
@@ -87,15 +96,6 @@ const FacebookLogin = ({ onLoading }) => {
       icon={<SvgIcon.IconFacebook />}
     />
   );
-};
+}
 
 export default FacebookLogin;
-
-const styles = StyleSheet.create({
-  facebook: {
-    backgroundColor: 'white',
-  },
-  textFacebook: {
-    color: '#CBCBCB',
-  },
-});
