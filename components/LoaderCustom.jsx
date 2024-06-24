@@ -1,13 +1,19 @@
-import { View, ActivityIndicator, Dimensions, Platform, Modal } from 'react-native';
+import {
+  View,
+  ActivityIndicator,
+  Dimensions,
+  Platform,
+  Modal,
+} from 'react-native';
 
-const LoaderCustom = ({ isLoading, visible }) => {
+function LoaderCustom({ isLoading, visible }) {
   const osName = Platform.OS;
   const screenHeight = Dimensions.get('screen').height;
 
   if (!isLoading) return null;
 
   return (
-    <Modal transparent={true} animationType="none" visible={visible}>
+    <Modal transparent animationType="none" visible={visible}>
       <View
         className="absolute flex justify-center items-center w-full h-full bg-primary/40 z-10"
         style={{
@@ -22,6 +28,6 @@ const LoaderCustom = ({ isLoading, visible }) => {
       </View>
     </Modal>
   );
-};
+}
 
 export default LoaderCustom;

@@ -7,23 +7,24 @@ module.exports = {
       jsx: true,
     },
   },
-  extends: ['airbnb'],
+  extends: ['airbnb', 'prettier'],
   plugins: ['react', 'react-hooks', 'prettier', 'jsx-a11y', 'import'],
   env: {
     jest: true,
-    'react-native/react-native': true,
   },
   rules: {
+    'no-unused-vars': 'warn',
+    'no-shadow': ['off'],
+    'react/no-children-prop': 'off',
+    'react/no-array-index-key': 'off',
+    'react/jsx-props-no-spreading': 'off',
+
     'prettier/prettier': 'error',
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
     'no-console': 'warn',
     'no-undef': 'error',
-  },
-  settings: {
-    react: {
-      version: 'detect',
-    },
+    'no-restricted-syntax': ['error'],
   },
   ignorePatterns: ['node_modules/**'],
 };

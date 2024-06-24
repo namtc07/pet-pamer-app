@@ -1,37 +1,9 @@
 import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import PlatformTouchable from '../components/PlatformTouchable';
-import { StatusbarCustom } from '../components/StatusbarCustom';
 import { router } from 'expo-router';
 
-const Welcome = () => {
-  return (
-    <SafeAreaView style={styles.container}>
-      <StatusbarCustom color={'dark-content'} />
-      <View style={styles.header}>
-        <Text style={styles.title}>Pet pamper</Text>
-        <Text style={styles.subtitle}>Taking care of your pet</Text>
-      </View>
-      <View style={styles.middle}>
-        <Image style={styles.img} source={require('../assets/images/cat_home.png')} />
-      </View>
-      <View style={styles.footer}>
-        <PlatformTouchable
-          onPress={() => router.navigate('sign-up')}
-          style={styles.signUp}
-          hasShadow
-          children={<Text style={styles.textSignUp}>Sign Up</Text>}
-        />
-        <PlatformTouchable
-          onPress={() => router.navigate('log-in')}
-          style={styles.logIn}
-          children={<Text style={styles.textLogIn}>Log in</Text>}
-        />
-      </View>
-    </SafeAreaView>
-  );
-};
-
-export default Welcome;
+import PlatformTouchable from '../components/PlatformTouchable';
+import StatusbarCustom from '../components/StatusbarCustom';
+import BannerImg from '../assets/images/cat_home.png';
 
 const styles = StyleSheet.create({
   container: {
@@ -88,3 +60,35 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
+
+function Welcome() {
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusbarCustom color="dark-content" />
+      <View style={styles.header}>
+        <Text style={styles.title}>Pet pamper</Text>
+        <Text style={styles.subtitle}>Taking care of your pet</Text>
+      </View>
+      <View style={styles.middle}>
+        <Image style={styles.img} source={BannerImg} />
+      </View>
+      <View style={styles.footer}>
+        <PlatformTouchable
+          onPress={() => router.navigate('sign-up')}
+          style={styles.signUp}
+          hasShadow
+        >
+          <Text style={styles.textSignUp}>Sign Up</Text>
+        </PlatformTouchable>
+        <PlatformTouchable
+          onPress={() => router.navigate('log-in')}
+          style={styles.logIn}
+        >
+          <Text style={styles.textLogIn}>Log in</Text>
+        </PlatformTouchable>
+      </View>
+    </SafeAreaView>
+  );
+}
+
+export default Welcome;

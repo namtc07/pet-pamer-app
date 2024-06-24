@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import 'expo-dev-client';
 import 'react-native-url-polyfill/auto';
 import { SplashScreen, Stack } from 'expo-router';
@@ -16,8 +17,7 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjExMTUsImV4cCI6MTcyNDg0MTU5MCwiaWF0IjoxNzE3MDY1NTkwLCJpc3MiOiJoYS1mdWxmaWxsbWVudCIsIm5iZiI6MTcxNzA2NTU5MH0.e8E9uRn0qiVuaUUhSkkSpbx9TJLgLBjnLyaxUuoJZhc';
+  const token = '';
   return {
     headers: {
       ...headers,
@@ -31,34 +31,39 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const RootLayout = () => {
-  const [fontsLoaded, error] = useFonts({
-    'Exo-Black': require('../assets/fonts/Exo-Black.ttf'),
-    'Exo-Bold': require('../assets/fonts/Exo-Bold.ttf'),
-    'Exo-ExtraBold': require('../assets/fonts/Exo-ExtraBold.ttf'),
-    'Exo-ExtraLight': require('../assets/fonts/Exo-ExtraLight.ttf'),
-    'Exo-Light': require('../assets/fonts/Exo-Light.ttf'),
-    'Exo-Medium': require('../assets/fonts/Exo-Medium.ttf'),
-    'Exo-Regular': require('../assets/fonts/Exo-Regular.ttf'),
-    'Exo-SemiBold': require('../assets/fonts/Exo-SemiBold.ttf'),
-    'Exo-Thin': require('../assets/fonts/Exo-Thin.ttf'),
-  });
+function RootLayout() {
+  // const [fontsLoaded, error] = useFonts({
+  //   'Exo-Black': require('../assets/fonts/Exo-Black.ttf'),
+  //   'Exo-Bold': require('../assets/fonts/Exo-Bold.ttf'),
+  //   'Exo-ExtraBold': require('../assets/fonts/Exo-ExtraBold.ttf'),
+  //   'Exo-ExtraLight': require('../assets/fonts/Exo-ExtraLight.ttf'),
+  //   'Exo-Light': require('../assets/fonts/Exo-Light.ttf'),
+  //   'Exo-Medium': require('../assets/fonts/Exo-Medium.ttf'),
+  //   'Exo-Regular': require('../assets/fonts/Exo-Regular.ttf'),
+  //   'Exo-SemiBold': require('../assets/fonts/Exo-SemiBold.ttf'),
+  //   'Exo-Thin': require('../assets/fonts/Exo-Thin.ttf'),
+  // });
+
+  // useEffect(() => {
+  //   if (error) throw error;
+
+  //   if (fontsLoaded) {
+  //     SplashScreen.hideAsync();
+  //   }
+  // }, [fontsLoaded, error]);
+
+  // if (!fontsLoaded) {
+  //   return null;
+  // }
+
+  // if (!fontsLoaded && !error) {
+  //   return null;
+  // }
 
   useEffect(() => {
-    if (error) throw error;
+    SplashScreen.hideAsync();
+  }, []);
 
-    if (fontsLoaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded, error]);
-
-  if (!fontsLoaded) {
-    return null;
-  }
-
-  if (!fontsLoaded && !error) {
-    return null;
-  }
   return (
     <ApolloProvider client={client}>
       <Stack
@@ -73,6 +78,6 @@ const RootLayout = () => {
       </Stack>
     </ApolloProvider>
   );
-};
+}
 
 export default RootLayout;
