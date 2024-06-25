@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 
-function TabLayout() {
+function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
@@ -28,4 +28,4 @@ function TabLayout() {
   );
 }
 
-export default TabLayout;
+export default TabsLayout;

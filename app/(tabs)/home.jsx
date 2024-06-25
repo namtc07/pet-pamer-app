@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useContext, useRef, useState } from 'react';
 import { useQuery } from 'react-apollo';
 import {
   Animated,
@@ -18,6 +18,7 @@ import Carousel from 'react-native-reanimated-carousel';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Images } from '@/assets/images';
 import { StatusbarCustom } from '@/components';
+import { AuthContext } from '@/context/AuthContext';
 
 const banners = [
   { img: Images.BannerHomepage, key: '1' },
@@ -178,6 +179,8 @@ function Home() {
 
   const { data } = useQuery(QUERY);
 
+  const { auth } = useContext(AuthContext);
+  console.log(auth);
   return (
     <View style={styles.container}>
       <StatusbarCustom color={colorStatus} />

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import {
   Image,
   RefreshControl,
@@ -12,15 +12,20 @@ import { LoginManager } from 'react-native-fbsdk-next';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { PlatformTouchable } from '@/components';
+import { AuthContext } from '@/context/AuthContext';
 
 const styles = StyleSheet.create({});
 
 function Settings() {
+  const { setAuth } = useContext(AuthContext); // Lấy setAuth từ context
+
   const handleFacebookLogout = async () => {
     LoginManager.logOut();
     await AsyncStorage.removeItem('userToken');
-    router.navigate('/');
+    await AsyncStorage.removeItem('userData');
+    setAuth({}); // Xóa token trong AuthContext
   };
+
   const [user, setUser] = useState(null);
 
   const loadStoredData = async () => {
@@ -41,7 +46,6 @@ function Settings() {
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = useCallback(() => {
-    console.log(user);
     setRefreshing(true);
     loadStoredData();
     setTimeout(() => {

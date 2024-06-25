@@ -10,9 +10,6 @@ module.exports = {
   root: true,
   extends: ['airbnb', 'prettier'],
   plugins: ['react', 'react-hooks', 'prettier', 'jsx-a11y', 'import'],
-  env: {
-    jest: true,
-  },
   rules: {
     'no-unused-vars': 'warn',
     'no-shadow': ['off'],
@@ -22,13 +19,25 @@ module.exports = {
     'no-param-reassign': ['off'],
     'import/no-unresolved': ['off'],
     'import/extensions': ['off'],
-    'prettier/prettier': 'error',
+    'prettier/prettier': ['error'],
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
-    'no-console': 'warn',
-    'no-undef': 'error',
-    'no-restricted-syntax': ['error'],
-    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    'no-console': 'off',
+    'no-undef': ['error'],
+    'react/destructuring-assignment': ['off'],
+    'react/jsx-no-constructed-context-values': ['off'],
+    'no-restricted-syntax': [
+      'warn',
+      {
+        selector:
+          "CallExpression[callee.object.name='console'][callee.property.name!=/^(warn|error|info|trace)$/]",
+        message: 'Unexpected property on console object was called',
+      },
+    ],
+    'react/jsx-filename-extension': [
+      1,
+      { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
+    ],
   },
   ignorePatterns: ['node_modules/**'],
 };

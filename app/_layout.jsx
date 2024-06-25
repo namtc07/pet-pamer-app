@@ -1,12 +1,13 @@
-import 'expo-dev-client';
-import 'react-native-url-polyfill/auto';
-import { SplashScreen, Stack } from 'expo-router';
+/* eslint-disable global-require */
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
 import { setContext } from 'apollo-link-context';
 import { createHttpLink } from 'apollo-link-http';
-import { useEffect } from 'react';
+import { Slot, SplashScreen } from 'expo-router';
+import React, { useEffect } from 'react';
 import { ApolloProvider } from 'react-apollo';
+import { useFonts } from 'expo-font';
+import { AuthProvider } from '@/context/AuthContext';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -15,7 +16,7 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = '';
+  const token = ''; // Thay thế bằng logic lấy token thực tế từ context AuthContext
   return {
     headers: {
       ...headers,
@@ -30,23 +31,40 @@ const client = new ApolloClient({
 });
 
 function RootLayout() {
+  const [fontsLoaded, error] = useFonts({
+    'Exo-Black': require('../assets/fonts/Exo-Black.ttf'),
+    'Exo-Bold': require('../assets/fonts/Exo-Bold.ttf'),
+    'Exo-ExtraBold': require('../assets/fonts/Exo-ExtraBold.ttf'),
+    'Exo-ExtraLight': require('../assets/fonts/Exo-ExtraLight.ttf'),
+    'Exo-Light': require('../assets/fonts/Exo-Light.ttf'),
+    'Exo-Medium': require('../assets/fonts/Exo-Medium.ttf'),
+    'Exo-Regular': require('../assets/fonts/Exo-Regular.ttf'),
+    'Exo-SemiBold': require('../assets/fonts/Exo-SemiBold.ttf'),
+    'Exo-Thin': require('../assets/fonts/Exo-Thin.ttf'),
+  });
+
   useEffect(() => {
-    SplashScreen.hideAsync();
-  }, []);
+    if (error) throw error;
+
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, error]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
+  if (!fontsLoaded && !error) {
+    return null;
+  }
 
   return (
-    <ApolloProvider client={client}>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          gestureEnabled: true,
-        }}
-      >
-        <Stack.Screen name="index" />
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
-    </ApolloProvider>
+    <AuthProvider>
+      <ApolloProvider client={client}>
+        <Slot />
+      </ApolloProvider>
+    </AuthProvider>
   );
 }
 

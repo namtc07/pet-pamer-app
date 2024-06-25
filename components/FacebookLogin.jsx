@@ -1,7 +1,5 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { router } from 'expo-router';
 import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Platform, StyleSheet, Text } from 'react-native';
 import {
   AccessToken,
@@ -10,7 +8,8 @@ import {
   LoginManager,
   Settings,
 } from 'react-native-fbsdk-next';
-import { SvgIcon } from '../assets/images';
+import { AuthContext } from '@/context/AuthContext';
+import { SvgIcon } from '@/assets/images';
 import PlatformTouchable from './PlatformTouchable';
 
 const styles = StyleSheet.create({
@@ -23,17 +22,17 @@ const styles = StyleSheet.create({
 });
 
 function FacebookLogin({ onLoading }) {
-  const [user, setUser] = useState(null);
+  const { setAuth } = useContext(AuthContext);
 
   useEffect(() => {
     const requestTracking = async () => {
       const { status } = await requestTrackingPermissionsAsync();
-      // if (Platform.OS === 'ios') {
-      Settings.initializeSDK();
-      // }
-      // if (status === 'granted' && Platform.OS === 'ios') {
-      await Settings.setAdvertiserTrackingEnabled(true);
-      // }
+      if (Platform.OS === 'ios') {
+        Settings.initializeSDK();
+      }
+      if (status === 'granted' && Platform.OS === 'ios') {
+        await Settings.setAdvertiserTrackingEnabled(true);
+      }
     };
     requestTracking();
   }, []);
@@ -46,7 +45,7 @@ function FacebookLogin({ onLoading }) {
         'email',
       ]);
       if (result.isCancelled) {
-        console.log('Login cancelled');
+        console.info('Login cancelled');
         onLoading(false);
       } else {
         const data = await AccessToken.getCurrentAccessToken();
@@ -56,12 +55,9 @@ function FacebookLogin({ onLoading }) {
         const { accessToken } = data;
         const responseInfoCallback = async (error, result) => {
           if (error) {
-            console.log('Error fetching data: ', error.toString());
+            console.info('Error fetching data: ', error.toString());
           } else {
-            setUser(result);
-            await AsyncStorage.setItem('userToken', accessToken);
-            await AsyncStorage.setItem('userData', JSON.stringify(result));
-            router.navigate('home');
+            setAuth({ token: accessToken, phone: '' });
           }
           onLoading(false);
         };
@@ -82,7 +78,6 @@ function FacebookLogin({ onLoading }) {
         new GraphRequestManager().addRequest(infoRequest).start();
       }
     } catch (error) {
-      console.log(`Login failed with error: ${error}`);
       onLoading(false);
     }
   };
