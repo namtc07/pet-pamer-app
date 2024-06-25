@@ -1,9 +1,8 @@
 import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { router } from 'expo-router';
 
-import PlatformTouchable from '../components/PlatformTouchable';
-import StatusbarCustom from '../components/StatusbarCustom';
 import BannerImg from '../assets/images/cat_home.png';
+import { PlatformTouchable, StatusbarCustom } from '@/components';
 
 const styles = StyleSheet.create({
   container: {

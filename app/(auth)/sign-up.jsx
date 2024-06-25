@@ -13,12 +13,14 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import { SvgIcon } from '../../assets/images';
-import FacebookLogin from '../../components/FacebookLogin';
-import LoaderCustom from '../../components/LoaderCustom';
-import PlatformTouchable from '../../components/PlatformTouchable';
-import SeparatorCustom from '../../components/SeparatorCustom';
-import { StatusbarCustom } from '../../components/StatusbarCustom';
+import {
+  StatusbarCustom,
+  FacebookLogin,
+  LoaderCustom,
+  PlatformTouchable,
+  SeparatorCustom,
+} from '@/components';
+import { SvgIcon } from '@/assets/images';
 
 const styles = StyleSheet.create({
   container: {

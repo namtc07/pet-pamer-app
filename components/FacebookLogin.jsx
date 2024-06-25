@@ -28,12 +28,12 @@ function FacebookLogin({ onLoading }) {
   useEffect(() => {
     const requestTracking = async () => {
       const { status } = await requestTrackingPermissionsAsync();
-      if (Platform.OS === 'ios') {
-        Settings.initializeSDK();
-      }
-      if (status === 'granted' && Platform.OS === 'ios') {
-        await Settings.setAdvertiserTrackingEnabled(true);
-      }
+      // if (Platform.OS === 'ios') {
+      Settings.initializeSDK();
+      // }
+      // if (status === 'granted' && Platform.OS === 'ios') {
+      await Settings.setAdvertiserTrackingEnabled(true);
+      // }
     };
     requestTracking();
   }, []);

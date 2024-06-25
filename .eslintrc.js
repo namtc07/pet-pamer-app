@@ -7,6 +7,7 @@ module.exports = {
       jsx: true,
     },
   },
+  root: true,
   extends: ['airbnb', 'prettier'],
   plugins: ['react', 'react-hooks', 'prettier', 'jsx-a11y', 'import'],
   env: {
@@ -18,13 +19,16 @@ module.exports = {
     'react/no-children-prop': 'off',
     'react/no-array-index-key': 'off',
     'react/jsx-props-no-spreading': 'off',
-
+    'no-param-reassign': ['off'],
+    'import/no-unresolved': ['off'],
+    'import/extensions': ['off'],
     'prettier/prettier': 'error',
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
     'no-console': 'warn',
     'no-undef': 'error',
     'no-restricted-syntax': ['error'],
+    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
   },
   ignorePatterns: ['node_modules/**'],
 };
