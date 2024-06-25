@@ -11,7 +11,7 @@ import {
 import { LoginManager } from 'react-native-fbsdk-next';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import PlatformTouchable from '../../components/PlatformTouchable';
+import { PlatformTouchable } from '@/components';
 
 const styles = StyleSheet.create({});
 

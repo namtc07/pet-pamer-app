@@ -16,8 +16,8 @@ import {
 } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Images } from '../../assets/images';
-import StatusbarCustom from '../../components/StatusbarCustom';
+import { Images } from '@/assets/images';
+import { StatusbarCustom } from '@/components';
 
 const banners = [
   { img: Images.BannerHomepage, key: '1' },
