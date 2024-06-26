@@ -1,15 +1,13 @@
 import BannerHomepage from './banner.png';
-
-import IconFacebook from './icon-facebook.svg';
-import IconGoogle from './icon-google.svg';
-
-const SvgIcon = {
-  IconFacebook,
-  IconGoogle,
-};
+import Services from './Services.png';
+import Products from './Products.png';
+import Camera from './Camera.png';
 
 const Images = {
   BannerHomepage,
+  Services,
+  Products,
+  Camera,
 };
 
-export { SvgIcon, Images };
+export default Images;

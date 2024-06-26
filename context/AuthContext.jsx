@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { router } from 'expo-router';
+import { router, useRouter } from 'expo-router';
 // Create a context
 const AuthContext = createContext({});
 
@@ -12,7 +12,7 @@ const configureAxiosHeaders = (token, phone) => {
 
 function AuthProvider(props) {
   const [auth, setAuthState] = useState();
-
+  const routerCustom = useRouter();
   // Get current auth state from AsyncStorage
   const getAuthState = async () => {
     try {
@@ -43,10 +43,10 @@ function AuthProvider(props) {
   }, []);
 
   useEffect(() => {
-    if (!auth?.token) {
-      router.replace('/');
+    if (auth?.token) {
+      router.replace('/(tabs)/home/home');
+      routerCustom.canGoBack(false);
     }
-    router.replace('/(tabs)/home');
   }, [auth]);
 
   return (

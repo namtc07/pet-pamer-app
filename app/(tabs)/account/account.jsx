@@ -16,7 +16,7 @@ import { AuthContext } from '@/context/AuthContext';
 
 const styles = StyleSheet.create({});
 
-function Settings() {
+function AccountScreen() {
   const { setAuth } = useContext(AuthContext); // Lấy setAuth từ context
 
   const handleFacebookLogout = async () => {
@@ -92,4 +92,4 @@ function Settings() {
   );
 }
 
-export default Settings;
+export default AccountScreen;

@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+// pages/Login.jsx
 import { AntDesign, Feather } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
+import React, { useContext, useEffect, useState } from 'react';
 import {
+  Alert,
+  Keyboard,
   SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -14,106 +13,21 @@ import {
   View,
 } from 'react-native';
 import {
-  StatusbarCustom,
+  checkButtonState,
+  loadStoredData,
+  saveDataToStorage,
+  validateEmail,
+} from '@/_utils/authHelpers';
+import SvgIcon from '@/assets/svgs';
+import {
   FacebookLogin,
   LoaderCustom,
   PlatformTouchable,
   SeparatorCustom,
+  StatusbarCustom,
 } from '@/components';
-import { SvgIcon } from '@/assets/images';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    paddingTop: StatusBar.currentHeight,
-  },
-  header: {
-    paddingHorizontal: 24,
-    paddingTop: StatusBar.currentHeight,
-  },
-  iconContainer: {
-    width: 32,
-    height: 32,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  content: {
-    flex: 1,
-    paddingHorizontal: 24,
-    marginTop: 18,
-  },
-  title: {
-    color: '#5A2828',
-    fontSize: 24,
-    lineHeight: 36,
-    fontWeight: '700',
-    marginBottom: 18,
-  },
-  emailContainer: {
-    marginBottom: 16,
-  },
-  input: {
-    backgroundColor: '#CBCBCB30',
-    height: 52,
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 12,
-    borderColor: 'transparent',
-
-    color: '#5A2828',
-    fontSize: 14,
-  },
-  invalidInput: {
-    borderColor: 'red',
-  },
-  invalidText: {
-    color: 'red',
-    fontSize: 12,
-  },
-  passwordContainer: {
-    position: 'relative',
-    marginBottom: 16,
-  },
-  eyeIcon: {
-    position: 'absolute',
-    right: 0,
-    top: '50%',
-    transform: [{ translateY: -30 }],
-    paddingStart: 10,
-    paddingEnd: 10,
-    paddingTop: 10,
-    paddingBottom: 10,
-  },
-  button: {
-    borderRadius: 12,
-    width: '100%',
-    height: 52,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  textLogin: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  buttonGroup: {
-    paddingVertical: 32,
-    display: 'flex',
-    gap: 18,
-  },
-  google: {
-    backgroundColor: 'white',
-  },
-  facebook: {
-    backgroundColor: 'white',
-  },
-  textGoogle: {
-    color: '#CBCBCB',
-  },
-  textFacebook: {
-    color: '#CBCBCB',
-  },
-});
+import { AuthContext } from '@/context/AuthContext';
+import { styles } from './styles';
 
 function Login() {
   const [loading, setLoading] = useState(false);
@@ -122,57 +36,39 @@ function Login() {
   const [password, setPassword] = useState('');
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [emailValid, setEmailValid] = useState(true);
+  const { setAuth } = useContext(AuthContext);
 
   useEffect(() => {
-    const loadStoredData = async () => {
-      const storedEmail = await AsyncStorage.getItem('email');
-      const storedPassword = await AsyncStorage.getItem('password');
-      if (storedEmail) setEmail(storedEmail);
-      if (storedPassword) setPassword(storedPassword);
-    };
-    loadStoredData();
+    loadStoredData(setEmail, setPassword);
   }, []);
 
-  const checkButtonState = (email, password) => {
-    if (email.trim() !== '' && password.trim() !== '' && emailValid) {
-      setButtonDisabled(false);
-    } else {
-      setButtonDisabled(true);
-    }
-  };
-
-  const validateEmail = (email) => {
-    const emailRegex = /\S+@\S+\.\S+/;
-    setEmailValid(emailRegex.test(email));
-  };
-
   useEffect(() => {
-    checkButtonState(email, password);
-    validateEmail(email);
+    checkButtonState(email, password, emailValid, setButtonDisabled);
+    validateEmail(email, setEmailValid);
   }, [email, password]);
-
-  const handleGetValueLoading = (value) => {
-    setLoading(value);
-  };
 
   const handleEmailChange = (text) => {
     setEmail(text);
-    checkButtonState(text, password);
-    validateEmail(text);
+    checkButtonState(text, password, emailValid, setButtonDisabled);
+    validateEmail(text, setEmailValid);
   };
 
   const handlePasswordChange = (text) => {
     setPassword(text);
-    checkButtonState(email, text);
+    checkButtonState(email, text, emailValid, setButtonDisabled);
   };
 
   const handleLogin = () => {
-    // Your sign-up logic here
+    if (email === 'admin@gmail.com' && password === '123') {
+      saveDataToStorage(email, password);
+      setAuth({ token: email, phone: '' });
+    } else {
+      Alert.alert('Sai roi !');
+    }
   };
 
   const handleBackPress = async () => {
-    await AsyncStorage.setItem('email', email);
-    await AsyncStorage.setItem('password', password);
+    saveDataToStorage(email, password);
     router.back();
   };
 
@@ -186,7 +82,7 @@ function Login() {
           </View>
         </TouchableWithoutFeedback>
       </View>
-      <ScrollView>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.content}>
           <View>
             <View>
@@ -225,7 +121,7 @@ function Login() {
                   onChangeText={handlePasswordChange}
                 />
                 <TouchableOpacity
-                  style={styles.eyeIcon}
+                  style={[styles.eyeIcon, styles.eyeIconLogin]}
                   onPress={() => setPasswordVisible(!passwordVisible)}
                 >
                   <Feather
@@ -278,7 +174,7 @@ function Login() {
               children={<Text style={styles.textGoogle}>Google</Text>}
               icon={<SvgIcon.IconGoogle />}
             />
-            <FacebookLogin onLoading={handleGetValueLoading} />
+            <FacebookLogin onLoading={setLoading} />
           </View>
           <View
             style={{
@@ -294,7 +190,7 @@ function Login() {
             </TouchableOpacity>
           </View>
         </View>
-      </ScrollView>
+      </TouchableWithoutFeedback>
       {loading && <LoaderCustom visible={loading} isLoading={loading} />}
     </SafeAreaView>
   );
