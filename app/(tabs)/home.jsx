@@ -16,9 +16,9 @@ import {
 } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Images } from '@/assets/images';
 import { StatusbarCustom } from '@/components';
 import { AuthContext } from '@/context/AuthContext';
+import Images from '@/assets/images';
 
 const banners = [
   { img: Images.BannerHomepage, key: '1' },
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function Home() {
+function HomeScreen() {
   const { width } = Dimensions.get('window');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [iconColor, setIconColor] = useState('#ffffff');
@@ -283,4 +283,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default HomeScreen;

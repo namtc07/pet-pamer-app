@@ -41,12 +41,11 @@ function AuthProvider(props) {
   useEffect(() => {
     getAuthState();
   }, []);
-
+  console.log('auth:::', auth);
   useEffect(() => {
-    if (!auth?.token) {
-      router.replace('/');
+    if (auth?.token) {
+      router.replace('/(tabs)/home');
     }
-    router.replace('/(tabs)/home');
   }, [auth]);
 
   return (

@@ -1,4 +1,38 @@
 import { Tabs } from 'expo-router';
+import SvgIcon from '@/assets/svgs';
+
+const tabScreens = [
+  {
+    name: 'home',
+    title: 'Home',
+    IconFill: SvgIcon.IconHomeFillColor,
+    Icon: SvgIcon.IconHome,
+  },
+  {
+    name: 'categories',
+    title: 'Categories',
+    IconFill: SvgIcon.IconCategoriesFillColor,
+    Icon: SvgIcon.IconCategories,
+  },
+  {
+    name: 'orders',
+    title: 'Orders',
+    IconFill: SvgIcon.IconOrdersFillColor,
+    Icon: SvgIcon.IconOrders,
+  },
+  {
+    name: 'chat',
+    title: 'Chat',
+    IconFill: SvgIcon.IconChatFillColor,
+    Icon: SvgIcon.IconChat,
+  },
+  {
+    name: 'account',
+    title: 'Account',
+    IconFill: SvgIcon.IconAccountFillColor,
+    Icon: SvgIcon.IconAccount,
+  },
+];
 
 function TabsLayout() {
   return (
@@ -8,22 +42,20 @@ function TabsLayout() {
           borderTopWidth: 1,
           height: 84,
         },
+        tabBarActiveTintColor: '#FF8D4D',
       }}
     >
-      <Tabs.Screen
-        name="home"
-        options={{
-          title: 'Home',
-          headerShown: false,
-        }}
-      />
-      <Tabs.Screen
-        name="settings"
-        options={{
-          title: 'Settings',
-          headerShown: false,
-        }}
-      />
+      {tabScreens.map(({ name, title, IconFill, Icon }) => (
+        <Tabs.Screen
+          key={name}
+          name={name}
+          options={{
+            title,
+            headerShown: false,
+            tabBarIcon: ({ focused }) => (focused ? <IconFill /> : <Icon />),
+          }}
+        />
+      ))}
     </Tabs>
   );
 }

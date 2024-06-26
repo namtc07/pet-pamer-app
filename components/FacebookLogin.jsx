@@ -9,8 +9,8 @@ import {
   Settings,
 } from 'react-native-fbsdk-next';
 import { AuthContext } from '@/context/AuthContext';
-import { SvgIcon } from '@/assets/images';
 import PlatformTouchable from './PlatformTouchable';
+import SvgIcon from '@/assets/svgs';
 
 const styles = StyleSheet.create({
   facebook: {

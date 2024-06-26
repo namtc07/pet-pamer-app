@@ -20,7 +20,7 @@ import {
   PlatformTouchable,
   SeparatorCustom,
 } from '@/components';
-import { SvgIcon } from '@/assets/images';
+import SvgIcon from '@/assets/svgs';
 
 const styles = StyleSheet.create({
   container: {
