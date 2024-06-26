@@ -3,8 +3,9 @@ import Images from '@/assets/images';
 
 export const banners = [
   { img: Images.BannerHomepage, key: '1' },
-  { img: Images.BannerHomepage, key: '2' },
-  { img: Images.BannerHomepage, key: '3' },
+  { img: Images.Camera, key: '2' },
+  { img: Images.Products, key: '3' },
+  { img: Images.Services, key: '4' },
 ];
 
 export const styles = StyleSheet.create({
@@ -45,13 +46,9 @@ export const styles = StyleSheet.create({
   icon: {
     padding: 10,
   },
-  bannerContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingBottom: 20,
-  },
   carouselContainer: {
     overflow: 'hidden',
+    paddingBottom: 40,
   },
   image: {
     height: 225,
@@ -64,7 +61,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 10,
     position: 'absolute',
-    bottom: 15,
+    bottom: 65,
     alignSelf: 'center',
   },
   dot: {
@@ -79,5 +76,10 @@ export const styles = StyleSheet.create({
   },
   inactiveDot: {
     backgroundColor: '#CBCBCB',
+  },
+  menuTabBLock: {
+    position: 'absolute',
+    bottom: 15,
+    alignSelf: 'center',
   },
 });

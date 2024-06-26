@@ -12,11 +12,11 @@ import {
 import Carousel from 'react-native-reanimated-carousel';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { StatusbarCustom } from '@/components';
+import ButtonBlockCustom from '@/app/_components/menu-tab-block';
+import DatePicker from '@/app/_components/date-picker';
 import { createBackgroundColorInterpolation, fadeIn, fadeOut } from './helpers';
 import { banners, styles } from './styles';
-import MenuTabBlock from '@/app/_components/menu-tab-block';
 import SvgIcon from '@/assets/svgs';
-import Images from '@/assets/images';
 
 function HomeScreen() {
   const { width } = Dimensions.get('window');
@@ -55,6 +55,21 @@ function HomeScreen() {
     }, 2000);
   }, []);
 
+  const menuTabs = [
+    {
+      title: 'Service',
+      icon: <SvgIcon.IconService />,
+    },
+    {
+      title: 'Products',
+      icon: <SvgIcon.IconProducts />,
+    },
+    {
+      title: 'My pets',
+      icon: <SvgIcon.IconCamera />,
+    },
+  ];
+
   return (
     <View style={styles.container}>
       <StatusbarCustom color={colorStatus} />
@@ -87,10 +102,8 @@ function HomeScreen() {
           </TouchableOpacity>
         </Animated.View>
       </Animated.View>
-
       <ScrollView
         onScroll={handleScroll}
-        scrollEventThrottle={16}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -103,46 +116,49 @@ function HomeScreen() {
           />
         }
       >
-        <View style={styles.bannerContainer}>
-          <View style={styles.carouselContainer}>
-            <Carousel
-              loop
-              width={width}
-              height={width / 2}
-              autoPlay
-              autoPlayInterval={5000}
-              data={banners}
-              keyExtractor={(item) => item.key}
-              scrollAnimationDuration={1000}
-              onSnapToItem={(index) => setCurrentIndex(index)}
-              renderItem={({ item }) => (
-                <View style={styles.imageContainer} key={item.key}>
-                  <ImageBackground
-                    source={item.img}
-                    resizeMode="cover"
-                    style={styles.image}
-                  />
-                </View>
-              )}
-              panGestureHandlerProps={{
-                activeOffsetX: [-10, 10],
-              }}
-            />
-            <View style={styles.pagination}>
-              {banners.map((_, index) => (
-                <View
-                  key={index}
-                  style={[
-                    styles.dot,
-                    currentIndex === index
-                      ? styles.activeDot
-                      : styles.inactiveDot,
-                  ]}
+        <View style={styles.carouselContainer}>
+          <Carousel
+            loop
+            width={width}
+            height={width / 2}
+            autoPlay
+            autoPlayInterval={5000}
+            data={banners}
+            keyExtractor={(item) => item.key}
+            scrollAnimationDuration={1000}
+            onSnapToItem={(index) => setCurrentIndex(index)}
+            renderItem={({ item }) => (
+              <View style={styles.imageContainer} key={item.key}>
+                <ImageBackground
+                  source={item.img}
+                  resizeMode="cover"
+                  style={styles.image}
                 />
-              ))}
-            </View>
+              </View>
+            )}
+            panGestureHandlerProps={{
+              activeOffsetX: [-10, 10],
+            }}
+          />
+          <View style={styles.pagination}>
+            {banners.map((_, index) => (
+              <View
+                key={index}
+                style={[
+                  styles.dot,
+                  currentIndex === index
+                    ? styles.activeDot
+                    : styles.inactiveDot,
+                ]}
+              />
+            ))}
           </View>
-          {/* <MenuTabBlock icon={Images.Services} text="Services" /> */}
+          <View style={styles.menuTabBLock}>
+            <ButtonBlockCustom mode="multi" source={menuTabs} />
+          </View>
+        </View>
+        <View>
+          <DatePicker />
         </View>
       </ScrollView>
     </View>
