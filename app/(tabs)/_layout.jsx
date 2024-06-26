@@ -1,4 +1,5 @@
 import { Tabs } from 'expo-router';
+import { useBackHandler } from '@react-native-community/hooks'; // Import useBackHandler hook
 import SvgIcon from '@/assets/svgs';
 
 const tabScreens = [
@@ -35,6 +36,8 @@ const tabScreens = [
 ];
 
 function TabsLayout() {
+  useBackHandler(() => true); // Always return true to prevent default back behavior
+
   return (
     <Tabs
       screenOptions={{
@@ -48,6 +51,7 @@ function TabsLayout() {
           options={{
             title,
             headerShown: false,
+            gestureEnabled: false,
             tabBarIcon: ({ focused }) => (focused ? <IconFill /> : <Icon />),
           }}
         />
