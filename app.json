@@ -37,10 +37,10 @@
       [
         "react-native-fbsdk-next",
         {
-          "appID": "2493896137478522",
-          "clientToken": "817e235eaf4b0adff17a78dbb4b28907",
+          "appID": "377371214866527",
+          "clientToken": "02d37e2180f8de4f2695f15097d2c206",
           "displayName": "Pet Pamper",
-          "scheme": "fb2493896137478522",
+          "scheme": "fb377371214866527",
           "advertiserIDCollectionEnabled": false,
           "autoLogAppEventsEnabled": false,
           "isAutoInitEnabled": true,
