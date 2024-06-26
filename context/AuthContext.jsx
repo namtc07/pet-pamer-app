@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import { router } from 'expo-router';
 // Create a context
 const AuthContext = createContext({});
 
@@ -41,11 +42,18 @@ function AuthProvider(props) {
     getAuthState();
   }, []);
 
+  useEffect(() => {
+    if (!auth?.token) {
+      router.replace('/');
+    }
+    router.replace('/(tabs)/home');
+  }, [auth]);
+
   return (
     <AuthContext.Provider
       value={{
         auth,
-        updateAuthState,
+        setAuth: updateAuthState,
       }}
     >
       {props.children}

@@ -180,7 +180,7 @@ function Home() {
   const { data } = useQuery(QUERY);
 
   const { auth } = useContext(AuthContext);
-  console.log(auth);
+
   return (
     <View style={styles.container}>
       <StatusbarCustom color={colorStatus} />

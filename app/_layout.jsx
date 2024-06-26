@@ -3,11 +3,11 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
 import { setContext } from 'apollo-link-context';
 import { createHttpLink } from 'apollo-link-http';
-import { Slot, SplashScreen } from 'expo-router';
-import React, { useEffect } from 'react';
+import { Slot, SplashScreen, Stack, router } from 'expo-router';
+import React, { useContext, useEffect } from 'react';
 import { ApolloProvider } from 'react-apollo';
 import { useFonts } from 'expo-font';
-import { AuthProvider } from '@/context/AuthContext';
+import { AuthContext, AuthProvider } from '@/context/AuthContext';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -62,7 +62,16 @@ function RootLayout() {
   return (
     <AuthProvider>
       <ApolloProvider client={client}>
-        <Slot />
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            gestureEnabled: true,
+          }}
+        >
+          <Stack.Screen name="index" />
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        </Stack>
       </ApolloProvider>
     </AuthProvider>
   );

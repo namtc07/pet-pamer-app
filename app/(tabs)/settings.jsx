@@ -20,10 +20,10 @@ function Settings() {
   const { setAuth } = useContext(AuthContext); // Lấy setAuth từ context
 
   const handleFacebookLogout = async () => {
+    await AsyncStorage.removeItem('auth');
     LoginManager.logOut();
-    await AsyncStorage.removeItem('userToken');
-    await AsyncStorage.removeItem('userData');
-    setAuth({}); // Xóa token trong AuthContext
+    setAuth({});
+    router.navigate('/');
   };
 
   const [user, setUser] = useState(null);
@@ -35,7 +35,7 @@ function Settings() {
         setUser(JSON.parse(userData));
       }
     } catch (error) {
-      console.log('Error loading user data:', error);
+      console.error('Error loading user data:', error);
     }
   };
 
