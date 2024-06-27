@@ -1,5 +1,6 @@
 import { Tabs } from 'expo-router';
 import { useBackHandler } from '@react-native-community/hooks'; // Import useBackHandler hook
+import { Platform } from 'react-native';
 import SvgIcon from '@/assets/svgs';
 
 const tabScreens = [
@@ -10,25 +11,25 @@ const tabScreens = [
     Icon: SvgIcon.IconHome,
   },
   {
-    name: 'categories/categories',
+    name: 'categories/index',
     title: 'Categories',
     IconFill: SvgIcon.IconCategoriesFillColor,
     Icon: SvgIcon.IconCategories,
   },
   {
-    name: 'orders/orders',
+    name: 'orders/index',
     title: 'Orders',
     IconFill: SvgIcon.IconOrdersFillColor,
     Icon: SvgIcon.IconOrders,
   },
   {
-    name: 'chat/chat',
+    name: 'chat/index',
     title: 'Chat',
     IconFill: SvgIcon.IconChatFillColor,
     Icon: SvgIcon.IconChat,
   },
   {
-    name: 'account/account',
+    name: 'account/index',
     title: 'Account',
     IconFill: SvgIcon.IconAccountFillColor,
     Icon: SvgIcon.IconAccount,
@@ -53,6 +54,18 @@ function TabsLayout() {
             headerShown: false,
             gestureEnabled: false,
             tabBarIcon: ({ focused }) => (focused ? <IconFill /> : <Icon />),
+            tabBarLabelStyle: {
+              fontFamily: 'Exo-Bold',
+            },
+            tabBarStyle: {
+              ...Platform.select({
+                android: {
+                  paddingVertical: 5,
+                  paddingBottom: 5,
+                  height: 55,
+                },
+              }),
+            },
           }}
         />
       ))}

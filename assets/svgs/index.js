@@ -16,7 +16,14 @@ import IconAccount from './Account.svg';
 import IconAccountFill from './Account-fill.svg';
 import IconAccountFillColor from './Account-fill-color.svg';
 
-const SvgIcon = {
+import IconService from './Pet friendly.svg';
+import IconProducts from './Pet.svg';
+import IconCamera from './Surveillance camera.svg';
+import IconClock from './Alarm clock.svg';
+import IconStart from './Star.svg';
+import ZigzagTag from './zigzag-tag.svg';
+
+const Svgs = {
   IconFacebook,
   IconGoogle,
   IconHome,
@@ -34,6 +41,12 @@ const SvgIcon = {
   IconAccount,
   IconAccountFill,
   IconAccountFillColor,
+  IconService,
+  IconProducts,
+  IconCamera,
+  IconClock,
+  IconStart,
+  ZigzagTag,
 };
 
-export default SvgIcon;
+export default Svgs;

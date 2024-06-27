@@ -2,11 +2,11 @@ import React from 'react';
 import {
   Platform,
   StyleSheet,
-  Text,
   TouchableNativeFeedback,
   TouchableOpacity,
   View,
 } from 'react-native';
+import Text from './TextCustom';
 
 const commonStyles = StyleSheet.create({
   button: {
@@ -73,9 +73,10 @@ function PlatformTouchable({
       <View style={buttonStyle}>
         {icon && <View style={commonStyles.icon}>{icon}</View>}
         <View style={commonStyles.textContainer}>
-          <Text style={[commonStyles.text, icon && { paddingRight: 32 }]}>
-            {children}
-          </Text>
+          <Text
+            style={[commonStyles.text, icon && { paddingRight: 32 }]}
+            text={children}
+          />
         </View>
       </View>
     </ButtonComponent>

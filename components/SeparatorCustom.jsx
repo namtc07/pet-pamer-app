@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import Text from './TextCustom';
 
 const styles = StyleSheet.create({
   container: {
@@ -60,7 +61,7 @@ function SeparatorCustom({
   };
 
   const renderText = position !== 'none' && text && (
-    <Text style={[textStyle, getPositionStyle(position)]}>{text}</Text>
+    <Text style={[textStyle, getPositionStyle(position)]} text={text} />
   );
 
   return (

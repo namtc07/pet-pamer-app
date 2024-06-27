@@ -1,13 +1,11 @@
 import BannerHomepage from './banner.png';
-import Services from './Services.png';
-import Products from './Products.png';
-import Camera from './Camera.png';
+import ProductCard from './img-product.jpg';
+import BannerPreview from './cat_home.png';
 
 const Images = {
   BannerHomepage,
-  Services,
-  Products,
-  Camera,
+  ProductCard,
+  BannerPreview,
 };
 
 export default Images;
