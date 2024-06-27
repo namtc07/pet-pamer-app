@@ -1,8 +1,8 @@
 import { router } from 'expo-router';
-import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Image, SafeAreaView, StyleSheet, View } from 'react-native';
 
-import { PlatformTouchable, StatusbarCustom } from '@/components';
-import BannerImg from '../assets/images/cat_home.png';
+import { PlatformTouchable, StatusbarCustom, Text } from '@/components';
+import Images from '@/assets/images';
 
 const styles = StyleSheet.create({
   container: {
@@ -66,11 +66,11 @@ function Index() {
     <SafeAreaView style={styles.container}>
       <StatusbarCustom color="dark-content" />
       <View style={styles.header}>
-        <Text style={styles.title}>Pet pamper</Text>
-        <Text style={styles.subtitle}>Taking care of your pet</Text>
+        <Text style={styles.title} text="Pet pamper" />
+        <Text style={styles.subtitle} text="Taking care of your pet" />
       </View>
       <View style={styles.middle}>
-        <Image style={styles.img} source={BannerImg} />
+        <Image style={styles.img} source={Images.BannerPreview} />
       </View>
       <View style={styles.footer}>
         <PlatformTouchable
@@ -78,13 +78,13 @@ function Index() {
           style={styles.signUp}
           hasShadow
         >
-          <Text style={styles.textSignUp}>Sign Up</Text>
+          <Text style={styles.textSignUp} text="Sign Up" />
         </PlatformTouchable>
         <PlatformTouchable
           onPress={() => router.navigate('log-in')}
           style={styles.logIn}
         >
-          <Text style={styles.textLogIn}>Log in</Text>
+          <Text style={styles.textLogIn} text="Log in" />
         </PlatformTouchable>
       </View>
     </SafeAreaView>

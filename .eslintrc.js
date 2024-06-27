@@ -27,6 +27,7 @@ module.exports = {
     'react/destructuring-assignment': ['off'],
     'react/jsx-no-constructed-context-values': ['off'],
     'react/no-unstable-nested-components': ['off'],
+    'import/prefer-default-export': ['off'],
     'no-restricted-syntax': [
       'warn',
       {

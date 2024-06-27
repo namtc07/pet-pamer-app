@@ -1,13 +1,12 @@
 import React from 'react';
 import {
-  Text,
+  Platform,
+  StyleSheet,
+  TouchableNativeFeedback,
   TouchableOpacity,
   View,
-  StyleSheet,
-  Platform,
-  TouchableNativeFeedback,
 } from 'react-native';
-import SvgIcon from '@/assets/svgs';
+import { Text } from '@/components';
 
 const styles = StyleSheet.create({
   container: {
@@ -70,7 +69,7 @@ function ButtonBlockCustom({ mode = 'single', icon, title, source }) {
           >
             <View style={styles.tabContent}>
               <View style={styles.iconContainer}>{tab?.icon}</View>
-              <Text style={styles.title}>{tab?.title}</Text>
+              <Text style={styles.title} text={tab?.title} />
             </View>
           </ButtonComponent>
         ));
@@ -82,7 +81,7 @@ function ButtonBlockCustom({ mode = 'single', icon, title, source }) {
           >
             <View style={styles.tabContent}>
               <View style={styles.iconContainer}>{icon}</View>
-              <Text style={styles.title}>{title}</Text>
+              <Text style={styles.title} text={title} />
             </View>
           </ButtonComponent>
         );

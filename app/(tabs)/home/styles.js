@@ -49,6 +49,7 @@ export const styles = StyleSheet.create({
   carouselContainer: {
     overflow: 'hidden',
     paddingBottom: 40,
+    marginBottom: 10,
   },
   image: {
     height: 225,
@@ -81,5 +82,21 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 15,
     alignSelf: 'center',
+  },
+  content: {
+    marginHorizontal: 20,
+    paddingBottom: 20,
+    gap: 18,
+  },
+  backToTopButton: {
+    position: 'absolute',
+    right: 20,
+    bottom: 30,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#FF8D4D',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

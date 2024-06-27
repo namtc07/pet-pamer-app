@@ -6,19 +6,18 @@ import {
   Alert,
   Keyboard,
   SafeAreaView,
-  Text,
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import SvgIcon from '@/assets/svgs';
 import {
   FacebookLogin,
   LoaderCustom,
   PlatformTouchable,
   SeparatorCustom,
   StatusbarCustom,
+  Text,
 } from '@/components';
 import { AuthContext } from '@/context/AuthContext';
 import {
@@ -28,6 +27,7 @@ import {
   validateEmail,
 } from '@/_utils/authHelpers';
 import { styles } from './styles';
+import Svgs from '@/assets/svgs';
 
 function Signup() {
   const [loading, setLoading] = useState(false);
@@ -86,7 +86,7 @@ function Signup() {
         <View style={styles.content}>
           <View>
             <View>
-              <Text style={styles.title}>Sign up</Text>
+              <Text style={styles.title} text="Sign up" />
             </View>
             <View>
               <View style={[styles.emailContainer]}>
@@ -103,10 +103,14 @@ function Signup() {
                 />
                 {!emailValid && email.trim() !== '' && (
                   <View style={{ paddingLeft: 4 }}>
-                    <Text style={styles.invalidText}>
-                      Please enter your email address in format:
-                    </Text>
-                    <Text style={styles.invalidText}>yourname@example.com</Text>
+                    <Text
+                      style={styles.invalidText}
+                      text="Please enter your email address in format:"
+                    />
+                    <Text
+                      style={styles.invalidText}
+                      text="yourname@example.com"
+                    />
                   </View>
                 )}
               </View>
@@ -147,9 +151,8 @@ function Signup() {
                     styles.textSignUp,
                     { color: buttonDisabled ? '#979797' : 'white' },
                   ]}
-                >
-                  Sign Up
-                </Text>
+                  text="Sign Up"
+                />
               }
             />
           </View>
@@ -164,8 +167,8 @@ function Signup() {
             <PlatformTouchable
               style={styles.google}
               hasShadow
-              children={<Text style={styles.textGoogle}>Google</Text>}
-              icon={<SvgIcon.IconGoogle />}
+              children={<Text style={styles.textGoogle} text="Google" />}
+              icon={<Svgs.IconGoogle />}
             />
             <FacebookLogin onLoading={setLoading} />
           </View>
@@ -177,9 +180,15 @@ function Signup() {
               paddingVertical: 32,
             }}
           >
-            <Text style={{ color: '#CBCBCB' }}>Already have an account? </Text>
+            <Text
+              style={{ color: '#CBCBCB' }}
+              text="Already have an account?"
+            />
             <TouchableOpacity onPress={() => router.navigate('log-in')}>
-              <Text style={{ color: '#FF8D4D', fontWeight: 600 }}>Log in</Text>
+              <Text
+                style={{ color: '#FF8D4D', fontWeight: 600 }}
+                text="Log in"
+              />
             </TouchableOpacity>
           </View>
         </View>

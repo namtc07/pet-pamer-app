@@ -1,6 +1,6 @@
 import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
 import React, { useContext, useEffect } from 'react';
-import { Platform, StyleSheet, Text } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import {
   AccessToken,
   GraphRequest,
@@ -10,7 +10,8 @@ import {
 } from 'react-native-fbsdk-next';
 import { AuthContext } from '@/context/AuthContext';
 import PlatformTouchable from './PlatformTouchable';
-import SvgIcon from '@/assets/svgs';
+import Text from './TextCustom';
+import Svgs from '@/assets/svgs';
 
 const styles = StyleSheet.create({
   facebook: {
@@ -87,8 +88,8 @@ function FacebookLogin({ onLoading }) {
       hasShadow
       style={styles.facebook}
       onPress={handleFacebookLogin}
-      children={<Text style={styles.textFacebook}>Facebook</Text>}
-      icon={<SvgIcon.IconFacebook />}
+      children={<Text style={styles.textFacebook} text="Facebook" />}
+      icon={<Svgs.IconFacebook />}
     />
   );
 }

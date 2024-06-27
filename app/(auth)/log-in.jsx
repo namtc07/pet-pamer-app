@@ -6,7 +6,6 @@ import {
   Alert,
   Keyboard,
   SafeAreaView,
-  Text,
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -18,16 +17,17 @@ import {
   saveDataToStorage,
   validateEmail,
 } from '@/_utils/authHelpers';
-import SvgIcon from '@/assets/svgs';
 import {
   FacebookLogin,
   LoaderCustom,
   PlatformTouchable,
   SeparatorCustom,
   StatusbarCustom,
+  Text,
 } from '@/components';
 import { AuthContext } from '@/context/AuthContext';
 import { styles } from './styles';
+import Svgs from '@/assets/svgs';
 
 function Login() {
   const [loading, setLoading] = useState(false);
@@ -86,7 +86,7 @@ function Login() {
         <View style={styles.content}>
           <View>
             <View>
-              <Text style={styles.title}>Log in</Text>
+              <Text style={styles.title} text="Log in" />
             </View>
             <View>
               <View style={[styles.emailContainer]}>
@@ -103,10 +103,15 @@ function Login() {
                 />
                 {!emailValid && email.trim() !== '' && (
                   <View style={{ paddingLeft: 4 }}>
-                    <Text style={styles.invalidText}>
-                      Please enter your email address in format:
-                    </Text>
-                    <Text style={styles.invalidText}>yourname@example.com</Text>
+                    <Text
+                      style={styles.invalidText}
+                      text="Please enter your email address in format:"
+                    />
+
+                    <Text
+                      style={styles.invalidText}
+                      text="yourname@example.com"
+                    />
                   </View>
                 )}
               </View>
@@ -132,9 +137,10 @@ function Login() {
                 </TouchableOpacity>
                 <View style={{ paddingTop: 4, alignItems: 'flex-end' }}>
                   <TouchableOpacity onPress={() => router.navigate()}>
-                    <Text style={{ color: '#FF8D4D', fontWeight: 600 }}>
-                      Forgot password?
-                    </Text>
+                    <Text
+                      style={{ color: '#FF8D4D', fontWeight: 600 }}
+                      text="Forgot password?"
+                    />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -154,9 +160,8 @@ function Login() {
                     styles.textLogin,
                     { color: buttonDisabled ? '#979797' : 'white' },
                   ]}
-                >
-                  Log in
-                </Text>
+                  text="Log in"
+                />
               }
             />
           </View>
@@ -171,8 +176,8 @@ function Login() {
             <PlatformTouchable
               style={styles.google}
               hasShadow
-              children={<Text style={styles.textGoogle}>Google</Text>}
-              icon={<SvgIcon.IconGoogle />}
+              children={<Text style={styles.textGoogle} text="Google" />}
+              icon={<Svgs.IconGoogle />}
             />
             <FacebookLogin onLoading={setLoading} />
           </View>
@@ -184,9 +189,15 @@ function Login() {
               paddingVertical: 32,
             }}
           >
-            <Text style={{ color: '#CBCBCB' }}>Already have an account? </Text>
+            <Text
+              style={{ color: '#CBCBCB' }}
+              text="Already have an account?"
+            />
             <TouchableOpacity onPress={() => router.navigate('sign-up')}>
-              <Text style={{ color: '#FF8D4D', fontWeight: 600 }}>Sign up</Text>
+              <Text
+                style={{ color: '#FF8D4D', fontWeight: 600 }}
+                text="Sign up"
+              />
             </TouchableOpacity>
           </View>
         </View>

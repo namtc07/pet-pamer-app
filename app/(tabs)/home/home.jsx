@@ -11,18 +11,24 @@ import {
 } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { StatusbarCustom } from '@/components';
-import ButtonBlockCustom from '@/app/_components/menu-tab-block';
 import DatePicker from '@/app/_components/date-picker';
+import ButtonBlockCustom from '@/app/_components/menu-tab-block';
+import ProductList from '@/app/_components/product-list';
+import Svgs from '@/assets/svgs';
+import { StatusbarCustom } from '@/components';
 import { createBackgroundColorInterpolation, fadeIn, fadeOut } from './helpers';
 import { banners, styles } from './styles';
-import SvgIcon from '@/assets/svgs';
 
 function HomeScreen() {
+  const scrollViewRef = useRef(null);
+
   const { width } = Dimensions.get('window');
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [iconColor, setIconColor] = useState('#ffffff');
   const [colorStatus, setColorStatus] = useState('light');
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const scrollY = useRef(new Animated.Value(0)).current;
 
@@ -44,6 +50,13 @@ function HomeScreen() {
       setIconColor('#ffffff');
       setColorStatus('light');
     }
+
+    // Kiểm tra nếu cuộn xuống hơn 200px thì hiển thị nút "back to top"
+    if (y > 200) {
+      setShowBackToTop(true);
+    } else {
+      setShowBackToTop(false);
+    }
   };
 
   const [refreshing, setRefreshing] = useState(false);
@@ -58,15 +71,15 @@ function HomeScreen() {
   const menuTabs = [
     {
       title: 'Service',
-      icon: <SvgIcon.IconService />,
+      icon: <Svgs.IconService />,
     },
     {
       title: 'Products',
-      icon: <SvgIcon.IconProducts />,
+      icon: <Svgs.IconProducts />,
     },
     {
       title: 'My pets',
-      icon: <SvgIcon.IconCamera />,
+      icon: <Svgs.IconCamera />,
     },
   ];
 
@@ -104,6 +117,7 @@ function HomeScreen() {
       </Animated.View>
       <ScrollView
         onScroll={handleScroll}
+        ref={scrollViewRef}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -157,10 +171,25 @@ function HomeScreen() {
             <ButtonBlockCustom mode="multi" source={menuTabs} />
           </View>
         </View>
-        <View>
-          <DatePicker />
+        <View style={[styles.content]}>
+          <View>
+            <DatePicker />
+          </View>
+          <ProductList
+            sourceList={[{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}]}
+          />
         </View>
       </ScrollView>
+      {showBackToTop && (
+        <TouchableOpacity
+          style={styles.backToTopButton}
+          onPress={() => {
+            scrollViewRef.current.scrollTo({ y: 0, animated: true });
+          }}
+        >
+          <Icon name="arrow-up" size={24} color="#fff" />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }

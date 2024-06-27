@@ -20,8 +20,10 @@ import IconService from './Pet friendly.svg';
 import IconProducts from './Pet.svg';
 import IconCamera from './Surveillance camera.svg';
 import IconClock from './Alarm clock.svg';
+import IconStart from './Star.svg';
+import ZigzagTag from './zigzag-tag.svg';
 
-const SvgIcon = {
+const Svgs = {
   IconFacebook,
   IconGoogle,
   IconHome,
@@ -43,6 +45,8 @@ const SvgIcon = {
   IconProducts,
   IconCamera,
   IconClock,
+  IconStart,
+  ZigzagTag,
 };
 
-export default SvgIcon;
+export default Svgs;
