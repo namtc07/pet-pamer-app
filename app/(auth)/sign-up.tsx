@@ -1,4 +1,3 @@
-// pages/Signup.jsx
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useContext, useEffect, useState } from 'react';
@@ -12,24 +11,26 @@ import {
   View,
 } from 'react-native';
 import {
-  FacebookLogin,
   LoaderCustom,
   PlatformTouchable,
   SeparatorCustom,
   StatusbarCustom,
   Text,
 } from '@/components';
-import { AuthContext } from '@/context/AuthContext';
 import {
-  checkButtonState,
+  // checkButtonState,
   loadStoredData,
   saveDataToStorage,
   validateEmail,
-} from '@/_utils/authHelpers';
+} from '@/app/_utils/authHelpers';
 import { styles } from './styles';
 import Svgs from '@/assets/svgs';
+import FacebookLogin from '../_components/FacebookLogin';
+import { AuthContext } from '@/context/AuthContext';
 
-function Signup() {
+interface SignupProps {}
+
+const Signup: React.FC<SignupProps> = () => {
   const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState('');
@@ -43,19 +44,19 @@ function Signup() {
   }, []);
 
   useEffect(() => {
-    checkButtonState(email, password, emailValid, setButtonDisabled);
+    // checkButtonState(email, password, emailValid, setButtonDisabled);
     validateEmail(email, setEmailValid);
   }, [email, password]);
 
-  const handleEmailChange = (text) => {
+  const handleEmailChange = (text: string) => {
     setEmail(text);
-    checkButtonState(text, password, emailValid, setButtonDisabled);
+    // checkButtonState(text, password, emailValid, setButtonDisabled);
     validateEmail(text, setEmailValid);
   };
 
-  const handlePasswordChange = (text) => {
+  const handlePasswordChange = (text: string) => {
     setPassword(text);
-    checkButtonState(email, text, emailValid, setButtonDisabled);
+    // checkButtonState(email, text, emailValid, setButtonDisabled);
   };
 
   const handleSignUp = () => {
@@ -63,7 +64,7 @@ function Signup() {
       saveDataToStorage(email, password);
       setAuth({ token: email, phone: '' });
     } else {
-      Alert.alert('Sai roi !');
+      Alert.alert('Incorrect credentials!');
     }
   };
 
@@ -74,7 +75,7 @@ function Signup() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusbarCustom color="dark-content" />
+      <StatusbarCustom color="dark" />
       <View style={styles.header}>
         <TouchableWithoutFeedback onPress={handleBackPress}>
           <View style={styles.iconContainer}>
@@ -86,14 +87,14 @@ function Signup() {
         <View style={styles.content}>
           <View>
             <View>
-              <Text style={styles.title} text="Sign up" />
+              <Text style={styles.title} children="Sign up" />
             </View>
             <View>
               <View style={[styles.emailContainer]}>
                 <TextInput
                   style={[
                     styles.input,
-                    !emailValid && email.trim() !== '' && styles.invalidInput,
+                    !emailValid && email?.trim() !== '' && styles.invalidInput,
                   ]}
                   placeholder="Email"
                   placeholderTextColor="#979797"
@@ -101,15 +102,15 @@ function Signup() {
                   value={email}
                   onChangeText={handleEmailChange}
                 />
-                {!emailValid && email.trim() !== '' && (
+                {!emailValid && email?.trim() !== '' && (
                   <View style={{ paddingLeft: 4 }}>
                     <Text
                       style={styles.invalidText}
-                      text="Please enter your email address in format:"
+                      children="Please enter your email address in format:"
                     />
                     <Text
                       style={styles.invalidText}
-                      text="yourname@example.com"
+                      children="yourname@example.com"
                     />
                   </View>
                 )}
@@ -151,7 +152,7 @@ function Signup() {
                     styles.textSignUp,
                     { color: buttonDisabled ? '#979797' : 'white' },
                   ]}
-                  text="Sign Up"
+                  children="Sign Up"
                 />
               }
             />
@@ -167,8 +168,11 @@ function Signup() {
             <PlatformTouchable
               style={styles.google}
               hasShadow
-              children={<Text style={styles.textGoogle} text="Google" />}
+              children={<Text style={styles.textGoogle} children="Google" />}
               icon={<Svgs.IconGoogle />}
+              onPress={function (): void {
+                throw new Error('Function not implemented.');
+              }}
             />
             <FacebookLogin onLoading={setLoading} />
           </View>
@@ -182,12 +186,12 @@ function Signup() {
           >
             <Text
               style={{ color: '#CBCBCB' }}
-              text="Already have an account?"
+              children="Already have an account?"
             />
             <TouchableOpacity onPress={() => router.navigate('log-in')}>
               <Text
                 style={{ color: '#FF8D4D', fontWeight: 600 }}
-                text="Log in"
+                children="Log in"
               />
             </TouchableOpacity>
           </View>
@@ -196,6 +200,6 @@ function Signup() {
       {loading && <LoaderCustom visible={loading} isLoading={loading} />}
     </SafeAreaView>
   );
-}
+};
 
 export default Signup;

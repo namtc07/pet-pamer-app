@@ -1,15 +1,15 @@
-import { View, Text } from 'react-native';
 import React from 'react';
+import { View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-function ChatScreen() {
+const OrderScreen: React.FC = () => {
   return (
     <SafeAreaView>
       <View>
-        <Text>ChatScreen</Text>
+        <Text>OrderScreen</Text>
       </View>
     </SafeAreaView>
   );
-}
+};
 
-export default ChatScreen;
+export default OrderScreen;

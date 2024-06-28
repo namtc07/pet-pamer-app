@@ -1,6 +1,5 @@
 import registerRootComponent from 'expo/build/launch/registerRootComponent';
-
-import App from './app/index';
+import App from './app';
 
 // Hide yellow box
 // console.disableYellowBox = true;

@@ -14,19 +14,45 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { PlatformTouchable } from '@/components';
 import { AuthContext } from '@/context/AuthContext';
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    padding: 16,
+  },
+  facebook: {
+    backgroundColor: 'white',
+    marginTop: 16,
+    padding: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#FF8D4D',
+    borderRadius: 8,
+  },
+});
 
-function AccountScreen() {
-  const { setAuth } = useContext(AuthContext); // Lấy setAuth từ context
+interface UserData {
+  picture?: { data?: { url: string } };
+  email?: string;
+  name?: string;
+  id?: string;
+}
+
+const AccountScreen: React.FC = () => {
+  const { setAuth } = useContext(AuthContext);
 
   const handleFacebookLogout = async () => {
     await AsyncStorage.removeItem('auth');
     LoginManager.logOut();
-    setAuth({});
+    setAuth({
+      token: '',
+      phone: '',
+    }); // Clear auth context
     router.navigate('/');
   };
 
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<UserData | null>(null);
 
   const loadStoredData = async () => {
     try {
@@ -71,8 +97,7 @@ function AccountScreen() {
       <SafeAreaView style={styles.container}>
         <View>
           <Image
-            width={50}
-            height={50}
+            style={{ width: 50, height: 50 }}
             source={{
               uri: user?.picture?.data?.url,
             }}
@@ -90,6 +115,6 @@ function AccountScreen() {
       </SafeAreaView>
     </ScrollView>
   );
-}
+};
 
 export default AccountScreen;

@@ -5,10 +5,14 @@ import DateTimePicker from 'react-native-ui-datepicker';
 import ButtonBlockCustom from './menu-tab-block';
 import Svgs from '@/assets/svgs';
 
+interface Range {
+  startDate?: Date;
+  endDate?: Date;
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // marginHorizontal: 20,
     paddingBottom: 6,
     marginBottom: 30,
     borderRadius: 12,
@@ -30,10 +34,7 @@ const styles = StyleSheet.create({
   },
   selectedTextStyle: {
     color: '#fff',
-    fontFamily: 'bold',
-  },
-  disabledDateStyle: {
-    color: 'red',
+    fontFamily: 'bold', // Assuming 'bold' is a valid font family
   },
   schedule: {
     position: 'absolute',
@@ -47,16 +48,21 @@ const styles = StyleSheet.create({
 });
 
 function DatePicker() {
-  const [range, setRange] = useState({
+  const [range, setRange] = useState<Range>({
     startDate: undefined,
     endDate: undefined,
   });
 
-  const handleDateChange = (params) => {
-    setRange({
-      startDate: params?.startDate,
-      endDate: params?.endDate,
-    });
+  const handleDateChange: any = ({
+    startDate,
+    endDate,
+  }: {
+    startDate?: Date,
+    endDate?: Date,
+  }) => {
+    if (startDate && endDate) {
+      setRange({ startDate, endDate });
+    }
   };
 
   const yesterday = dayjs().subtract(1, 'day').toDate();
@@ -68,17 +74,19 @@ function DatePicker() {
         startDate={range.startDate}
         endDate={range.endDate}
         onChange={handleDateChange}
-        calendarTextStyle={styles.calendarTextStyle}
-        selectedTextStyle={styles.selectedTextStyle}
+        calendarTextStyle={styles.calendarTextStyle as any}
+        selectedTextStyle={styles.selectedTextStyle as any}
         minDate={yesterday}
-        disabledDateTextStyle={styles.disabledDateStyle}
         selectedItemColor="#FFBA69"
-        timePickerIndicatorStyle={[styles.timePickerIndicatorStyle]}
         firstDayOfWeek={1}
-        weekDaysTextStyle={styles.weekDaysTextStyle}
+        weekDaysTextStyle={styles.weekDaysTextStyle as any} // Adjust as per the actual prop type
       />
       <View style={styles.schedule}>
-        <ButtonBlockCustom title="Schedule" icon={<Svgs.IconClock />} />
+        <ButtonBlockCustom
+          title="Schedule"
+          icon={<Svgs.IconClock />}
+          source={undefined}
+        />
       </View>
     </View>
   );

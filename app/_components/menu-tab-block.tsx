@@ -8,6 +8,18 @@ import {
 } from 'react-native';
 import { Text } from '@/components';
 
+interface Tab {
+  icon: React.ReactNode; // Assuming icon is a React component or element
+  title: string;
+}
+
+interface ButtonBlockCustomProps {
+  mode?: 'single' | 'multi';
+  icon?: React.ReactNode;
+  title?: string;
+  source?: Tab[];
+}
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
@@ -50,48 +62,40 @@ const styles = StyleSheet.create({
   title: {
     color: '#FF8D4D',
     fontFamily: 'Exo-Bold',
-    marginLeft: 8, // Add margin between icon and text
+    marginLeft: 8,
   },
 });
 
-function ButtonBlockCustom({ mode = 'single', icon, title, source }) {
-  const ButtonComponent =
-    Platform.OS === 'ios' ? TouchableOpacity : TouchableNativeFeedback;
-
-  const renderUI = () => {
-    switch (mode) {
-      case 'multi':
-        return source.map((tab, index) => (
-          <ButtonComponent
-            key={index}
-            style={styles.tabContainer}
-            background={TouchableNativeFeedback.Ripple(5)}
-          >
+const ButtonBlockCustom: React.FC<ButtonBlockCustomProps> = ({
+  mode = 'single',
+  icon,
+  title,
+  source,
+}) => {
+  return (
+    <View style={styles.container}>
+      {Platform.OS === 'ios' ? (
+        source?.map((tab, index) => (
+          <TouchableOpacity key={index} style={styles.tabContainer}>
             <View style={styles.tabContent}>
               <View style={styles.iconContainer}>{tab?.icon}</View>
-              <Text style={styles.title} text={tab?.title} />
+              <Text style={styles.title} children={tab?.title} />
             </View>
-          </ButtonComponent>
-        ));
-      case 'single':
-        return (
-          <ButtonComponent
-            style={styles.tabContainer}
-            background={TouchableNativeFeedback.Ripple(5)}
-          >
-            <View style={styles.tabContent}>
-              <View style={styles.iconContainer}>{icon}</View>
-              <Text style={styles.title} text={title} />
-            </View>
-          </ButtonComponent>
-        );
-      default:
-    }
-
-    return null;
-  };
-
-  return <View style={styles.container}>{renderUI()}</View>;
-}
+          </TouchableOpacity>
+        ))
+      ) : (
+        <TouchableNativeFeedback
+          style={styles.tabContainer}
+          background={TouchableNativeFeedback.Ripple('#000', false)}
+        >
+          <View style={styles.tabContent}>
+            <View style={styles.iconContainer}>{icon}</View>
+            <Text style={styles.title} children={title} />
+          </View>
+        </TouchableNativeFeedback>
+      )}
+    </View>
+  );
+};
 
 export default ButtonBlockCustom;

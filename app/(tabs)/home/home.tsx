@@ -19,8 +19,8 @@ import { StatusbarCustom } from '@/components';
 import { createBackgroundColorInterpolation, fadeIn, fadeOut } from './helpers';
 import { banners, styles } from './styles';
 
-function HomeScreen() {
-  const scrollViewRef = useRef(null);
+const HomeScreen: React.FC = () => {
+  const scrollViewRef = useRef<ScrollView>(null);
 
   const { width } = Dimensions.get('window');
 
@@ -34,7 +34,7 @@ function HomeScreen() {
 
   const backgroundColor = createBackgroundColorInterpolation(scrollY);
 
-  const handleScroll = (event) => {
+  const handleScroll = (event: any) => {
     const { y } = event.nativeEvent.contentOffset;
     scrollY.setValue(y);
 
@@ -51,7 +51,6 @@ function HomeScreen() {
       setColorStatus('light');
     }
 
-    // Kiểm tra nếu cuộn xuống hơn 200px thì hiển thị nút "back to top"
     if (y > 200) {
       setShowBackToTop(true);
     } else {
@@ -138,11 +137,11 @@ function HomeScreen() {
             autoPlay
             autoPlayInterval={5000}
             data={banners}
-            keyExtractor={(item) => item.key}
+            // keyExtractor={(item) => item.key}
             scrollAnimationDuration={1000}
             onSnapToItem={(index) => setCurrentIndex(index)}
             renderItem={({ item }) => (
-              <View style={styles.imageContainer} key={item.key}>
+              <View key={item.key}>
                 <ImageBackground
                   source={item.img}
                   resizeMode="cover"
@@ -184,7 +183,7 @@ function HomeScreen() {
         <TouchableOpacity
           style={styles.backToTopButton}
           onPress={() => {
-            scrollViewRef.current.scrollTo({ y: 0, animated: true });
+            scrollViewRef.current?.scrollTo({ y: 0, animated: true });
           }}
         >
           <Icon name="arrow-up" size={24} color="#fff" />
@@ -192,6 +191,6 @@ function HomeScreen() {
       )}
     </View>
   );
-}
+};
 
 export default HomeScreen;

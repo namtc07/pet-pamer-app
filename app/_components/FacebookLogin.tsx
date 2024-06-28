@@ -9,9 +9,8 @@ import {
   Settings,
 } from 'react-native-fbsdk-next';
 import { AuthContext } from '@/context/AuthContext';
-import PlatformTouchable from './PlatformTouchable';
-import Text from './TextCustom';
 import Svgs from '@/assets/svgs';
+import { PlatformTouchable, Text } from '@/components';
 
 const styles = StyleSheet.create({
   facebook: {
@@ -22,7 +21,11 @@ const styles = StyleSheet.create({
   },
 });
 
-function FacebookLogin({ onLoading }) {
+interface FacebookLoginProps {
+  onLoading: (loading: boolean) => void;
+}
+
+const FacebookLogin: React.FC<FacebookLoginProps> = ({ onLoading }) => {
   const { setAuth } = useContext(AuthContext);
 
   useEffect(() => {
@@ -54,7 +57,7 @@ function FacebookLogin({ onLoading }) {
           throw new Error('Something went wrong obtaining access token');
         }
         const { accessToken } = data;
-        const responseInfoCallback = async (error, result) => {
+        const responseInfoCallback = async (error: any, result: any) => {
           if (error) {
             console.info('Error fetching data: ', error.toString());
           } else {
@@ -79,6 +82,7 @@ function FacebookLogin({ onLoading }) {
         new GraphRequestManager().addRequest(infoRequest).start();
       }
     } catch (error) {
+      console.error('Facebook login error:', error);
       onLoading(false);
     }
   };
@@ -88,10 +92,10 @@ function FacebookLogin({ onLoading }) {
       hasShadow
       style={styles.facebook}
       onPress={handleFacebookLogin}
-      children={<Text style={styles.textFacebook} text="Facebook" />}
+      children={<Text style={styles.textFacebook} children="Facebook" />}
       icon={<Svgs.IconFacebook />}
     />
   );
-}
+};
 
 export default FacebookLogin;

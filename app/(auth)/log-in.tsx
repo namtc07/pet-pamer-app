@@ -1,4 +1,5 @@
-// pages/Login.jsx
+// pages/Login.tsx
+
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useContext, useEffect, useState } from 'react';
@@ -10,32 +11,38 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  ViewStyle,
+  TextStyle,
+  TextInputProps,
+  TouchableOpacityProps,
 } from 'react-native';
 import {
-  checkButtonState,
+  // checkButtonState,
   loadStoredData,
   saveDataToStorage,
   validateEmail,
-} from '@/_utils/authHelpers';
+} from '@/app/_utils/authHelpers';
 import {
-  FacebookLogin,
   LoaderCustom,
   PlatformTouchable,
   SeparatorCustom,
   StatusbarCustom,
   Text,
 } from '@/components';
-import { AuthContext } from '@/context/AuthContext';
 import { styles } from './styles';
 import Svgs from '@/assets/svgs';
+import FacebookLogin from '../_components/FacebookLogin';
+import { AuthContext } from '@/context/AuthContext';
 
-function Login() {
-  const [loading, setLoading] = useState(false);
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [buttonDisabled, setButtonDisabled] = useState(true);
-  const [emailValid, setEmailValid] = useState(true);
+interface LoginProps {}
+
+const Login: React.FC<LoginProps> = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
+  const [emailValid, setEmailValid] = useState<boolean>(true);
   const { setAuth } = useContext(AuthContext);
 
   useEffect(() => {
@@ -43,19 +50,19 @@ function Login() {
   }, []);
 
   useEffect(() => {
-    checkButtonState(email, password, emailValid, setButtonDisabled);
+    // checkButtonState(email, password, emailValid, setButtonDisabled);
     validateEmail(email, setEmailValid);
   }, [email, password]);
 
-  const handleEmailChange = (text) => {
+  const handleEmailChange = (text: string) => {
     setEmail(text);
-    checkButtonState(text, password, emailValid, setButtonDisabled);
+    // checkButtonState(text, password, emailValid, setButtonDisabled);
     validateEmail(text, setEmailValid);
   };
 
-  const handlePasswordChange = (text) => {
+  const handlePasswordChange = (text: string) => {
     setPassword(text);
-    checkButtonState(email, text, emailValid, setButtonDisabled);
+    // checkButtonState(email, text, emailValid, setButtonDisabled);
   };
 
   const handleLogin = () => {
@@ -74,7 +81,7 @@ function Login() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusbarCustom color="dark-content" />
+      <StatusbarCustom color="dark" />
       <View style={styles.header}>
         <TouchableWithoutFeedback onPress={handleBackPress}>
           <View style={styles.iconContainer}>
@@ -86,14 +93,14 @@ function Login() {
         <View style={styles.content}>
           <View>
             <View>
-              <Text style={styles.title} text="Log in" />
+              <Text style={styles.title} children="Log in" />
             </View>
             <View>
               <View style={[styles.emailContainer]}>
                 <TextInput
                   style={[
                     styles.input,
-                    !emailValid && email.trim() !== '' && styles.invalidInput,
+                    !emailValid && email?.trim() !== '' && styles.invalidInput,
                   ]}
                   placeholder="Email"
                   placeholderTextColor="#979797"
@@ -101,16 +108,15 @@ function Login() {
                   value={email}
                   onChangeText={handleEmailChange}
                 />
-                {!emailValid && email.trim() !== '' && (
+                {!emailValid && email?.trim() !== '' && (
                   <View style={{ paddingLeft: 4 }}>
                     <Text
                       style={styles.invalidText}
-                      text="Please enter your email address in format:"
+                      children="Please enter your email address in format:"
                     />
-
                     <Text
                       style={styles.invalidText}
-                      text="yourname@example.com"
+                      children="yourname@example.com"
                     />
                   </View>
                 )}
@@ -136,10 +142,12 @@ function Login() {
                   />
                 </TouchableOpacity>
                 <View style={{ paddingTop: 4, alignItems: 'flex-end' }}>
-                  <TouchableOpacity onPress={() => router.navigate()}>
+                  <TouchableOpacity
+                    onPress={() => router.navigate('Forgot password?')}
+                  >
                     <Text
-                      style={{ color: '#FF8D4D', fontWeight: 600 }}
-                      text="Forgot password?"
+                      style={{ color: '#FF8D4D', fontWeight: '600' }}
+                      children="Forgot password?"
                     />
                   </TouchableOpacity>
                 </View>
@@ -154,16 +162,15 @@ function Login() {
                 styles.button,
                 { backgroundColor: buttonDisabled ? '#CBCBCB' : '#FF8D4D' },
               ]}
-              children={
-                <Text
-                  style={[
-                    styles.textLogin,
-                    { color: buttonDisabled ? '#979797' : 'white' },
-                  ]}
-                  text="Log in"
-                />
-              }
-            />
+            >
+              <Text
+                style={[
+                  // styles.textLogin,
+                  { color: buttonDisabled ? '#979797' : 'white' },
+                ]}
+                children="Log in"
+              />
+            </PlatformTouchable>
           </View>
           <View style={{ paddingTop: 32 }}>
             <SeparatorCustom
@@ -176,8 +183,9 @@ function Login() {
             <PlatformTouchable
               style={styles.google}
               hasShadow
-              children={<Text style={styles.textGoogle} text="Google" />}
+              children={<Text style={styles.textGoogle} children="Google" />}
               icon={<Svgs.IconGoogle />}
+              onPress={() => console.log('Google')}
             />
             <FacebookLogin onLoading={setLoading} />
           </View>
@@ -191,12 +199,12 @@ function Login() {
           >
             <Text
               style={{ color: '#CBCBCB' }}
-              text="Already have an account?"
+              children="Already have an account?"
             />
             <TouchableOpacity onPress={() => router.navigate('sign-up')}>
               <Text
-                style={{ color: '#FF8D4D', fontWeight: 600 }}
-                text="Sign up"
+                style={{ color: '#FF8D4D', fontWeight: '600' }}
+                children="Sign up"
               />
             </TouchableOpacity>
           </View>
@@ -205,6 +213,6 @@ function Login() {
       {loading && <LoaderCustom visible={loading} isLoading={loading} />}
     </SafeAreaView>
   );
-}
+};
 
 export default Login;
