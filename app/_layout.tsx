@@ -1,4 +1,5 @@
 /* eslint-disable global-require */
+import { AuthProvider } from '@/context/AuthContext';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
 import { setContext } from 'apollo-link-context';
@@ -7,7 +8,6 @@ import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import React, { useEffect } from 'react';
 import { ApolloProvider } from 'react-apollo';
-import { AuthProvider } from '@/context/AuthContext';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -30,7 +30,9 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-function RootLayout() {
+interface RootLayoutProps {}
+
+const RootLayout: React.FC<RootLayoutProps> = () => {
   const [fontsLoaded, error] = useFonts({
     'Exo-Black': require('../assets/fonts/Exo-Black.ttf'),
     'Exo-Bold': require('../assets/fonts/Exo-Bold.ttf'),
@@ -77,6 +79,6 @@ function RootLayout() {
       </ApolloProvider>
     </AuthProvider>
   );
-}
+};
 
 export default RootLayout;

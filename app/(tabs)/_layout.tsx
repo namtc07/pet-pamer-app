@@ -1,9 +1,16 @@
-import { Tabs } from 'expo-router';
-import { useBackHandler } from '@react-native-community/hooks'; // Import useBackHandler hook
+import React from 'react';
 import { Platform } from 'react-native';
 import SvgIcon from '@/assets/svgs';
+import { Tabs } from 'expo-router';
 
-const tabScreens = [
+interface TabScreen {
+  name: string;
+  title: string;
+  IconFill: React.ElementType;
+  Icon: React.ElementType;
+}
+
+const tabScreens: TabScreen[] = [
   {
     name: 'home/home',
     title: 'Home',
@@ -36,9 +43,7 @@ const tabScreens = [
   },
 ];
 
-function TabsLayout() {
-  useBackHandler(() => true); // Always return true to prevent default back behavior
-
+const TabsLayout: React.FC = () => {
   return (
     <Tabs
       screenOptions={{
@@ -52,7 +57,6 @@ function TabsLayout() {
           options={{
             title,
             headerShown: false,
-            gestureEnabled: false,
             tabBarIcon: ({ focused }) => (focused ? <IconFill /> : <Icon />),
             tabBarLabelStyle: {
               fontFamily: 'Exo-Bold',
@@ -71,6 +75,6 @@ function TabsLayout() {
       ))}
     </Tabs>
   );
-}
+};
 
 export default TabsLayout;

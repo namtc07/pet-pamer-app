@@ -12,15 +12,16 @@ import {
 import Carousel from 'react-native-reanimated-carousel';
 import Icon from 'react-native-vector-icons/Ionicons';
 import DatePicker from '@/app/_components/date-picker';
-import ButtonBlockCustom from '@/app/_components/menu-tab-block';
+import MenuTabBlock from '@/app/_components/menu-tab-block';
 import ProductList from '@/app/_components/product-list';
 import Svgs from '@/assets/svgs';
-import { StatusbarCustom } from '@/components';
 import { createBackgroundColorInterpolation, fadeIn, fadeOut } from './helpers';
 import { banners, styles } from './styles';
+import StatusbarCustom from '@/components/StatusbarCustom';
+import { StatusBarStyle } from 'expo-status-bar';
 
-function HomeScreen() {
-  const scrollViewRef = useRef(null);
+const HomeScreen: React.FC = () => {
+  const scrollViewRef = useRef<ScrollView>(null);
 
   const { width } = Dimensions.get('window');
 
@@ -34,7 +35,7 @@ function HomeScreen() {
 
   const backgroundColor = createBackgroundColorInterpolation(scrollY);
 
-  const handleScroll = (event) => {
+  const handleScroll = (event: any) => {
     const { y } = event.nativeEvent.contentOffset;
     scrollY.setValue(y);
 
@@ -51,7 +52,6 @@ function HomeScreen() {
       setColorStatus('light');
     }
 
-    // Kiểm tra nếu cuộn xuống hơn 200px thì hiển thị nút "back to top"
     if (y > 200) {
       setShowBackToTop(true);
     } else {
@@ -85,7 +85,7 @@ function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <StatusbarCustom color={colorStatus} />
+      <StatusbarCustom color={colorStatus as StatusBarStyle} />
       <Animated.View style={[styles.header, { backgroundColor }]}>
         <Animated.View
           style={{
@@ -138,11 +138,11 @@ function HomeScreen() {
             autoPlay
             autoPlayInterval={5000}
             data={banners}
-            keyExtractor={(item) => item.key}
+            // keyExtractor={(item) => item.key}
             scrollAnimationDuration={1000}
             onSnapToItem={(index) => setCurrentIndex(index)}
             renderItem={({ item }) => (
-              <View style={styles.imageContainer} key={item.key}>
+              <View key={item.key}>
                 <ImageBackground
                   source={item.img}
                   resizeMode="cover"
@@ -168,7 +168,7 @@ function HomeScreen() {
             ))}
           </View>
           <View style={styles.menuTabBLock}>
-            <ButtonBlockCustom mode="multi" source={menuTabs} />
+            <MenuTabBlock mode="multi" source={menuTabs} />
           </View>
         </View>
         <View style={[styles.content]}>
@@ -184,7 +184,7 @@ function HomeScreen() {
         <TouchableOpacity
           style={styles.backToTopButton}
           onPress={() => {
-            scrollViewRef.current.scrollTo({ y: 0, animated: true });
+            scrollViewRef.current?.scrollTo({ y: 0, animated: true });
           }}
         >
           <Icon name="arrow-up" size={24} color="#fff" />
@@ -192,6 +192,6 @@ function HomeScreen() {
       )}
     </View>
   );
-}
+};
 
 export default HomeScreen;

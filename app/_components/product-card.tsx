@@ -2,7 +2,11 @@ import React from 'react';
 import { Image, Platform, StyleSheet, View } from 'react-native';
 import Images from '@/assets/images';
 import Svgs from '@/assets/svgs';
-import { Text } from '@/components';
+import Text from '@/components/TextCustom';
+
+interface ProductCardProps {
+  modeRow?: boolean;
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -34,7 +38,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   content: {
-    flex: 1, // Add flex to make the content container flexible
+    flex: 1,
     gap: 8,
   },
   imageContainer: {
@@ -116,7 +120,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function ProductCard({ modeRow }) {
+const ProductCard: React.FC<ProductCardProps> = ({ modeRow }) => {
   return (
     <View
       style={[
@@ -129,21 +133,21 @@ function ProductCard({ modeRow }) {
       </View>
       <View style={styles.content}>
         <View style={styles.textContainer}>
-          <Text style={styles.textPrimary} text="Brit Care" />
+          <Text style={styles.textPrimary} children="Brit Care" />
           <Text
             style={styles.textSecondary}
             lines={2}
-            text="Wet cat food salmon & herring supper puppies & adults"
+            children="Wet cat food salmon & herring supper puppies & adults"
           />
         </View>
         <View style={styles.priceContainer}>
           <View style={styles.priceTextContainer}>
-            <Text style={styles.priceCurrent} text="$18" />
-            <Text style={styles.priceOld} text="$20" />
+            <Text style={styles.priceCurrent} children="$18" />
+            <Text style={styles.priceOld} children="$20" />
           </View>
           <View style={styles.discountContainer}>
             <Svgs.ZigzagTag />
-            <Text style={styles.discountText} text="Giảm 100%" />
+            <Text style={styles.discountText} children="Giảm 100%" />
           </View>
         </View>
         <View style={styles.ratingContainer}>
@@ -151,14 +155,14 @@ function ProductCard({ modeRow }) {
             <View style={styles.ratingStar}>
               <Svgs.IconStart />
             </View>
-            <Text style={styles.ratingText} text="4.8" />
+            <Text style={styles.ratingText} children="4.8" />
           </View>
-          <Text style={styles.separator} text="|" />
-          <Text style={styles.ratingText} text="1,6k sold" />
+          <Text style={styles.separator} children="|" />
+          <Text style={styles.ratingText} children="1,6k sold" />
         </View>
       </View>
     </View>
   );
-}
+};
 
 export default ProductCard;

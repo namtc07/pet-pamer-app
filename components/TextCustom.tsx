@@ -1,5 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text as TextNative } from 'react-native';
+import {
+  StyleSheet,
+  Text as TextNative,
+  TextProps,
+  TextStyle,
+} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -31,7 +36,27 @@ const styles = StyleSheet.create({
   },
 });
 
-function Text({ style, text, lines, fontWeight }) {
+interface CustomTextProps extends TextProps {
+  lines?: number;
+  fontWeight?:
+    | 'black'
+    | 'bold'
+    | 'extraBold'
+    | 'extraLight'
+    | 'light'
+    | 'medium'
+    | 'semiBold'
+    | 'thin'
+    | 'regular';
+  style?: TextStyle | TextStyle[];
+}
+
+const Text: React.FC<CustomTextProps> = ({
+  style,
+  children,
+  lines,
+  fontWeight = 'regular',
+}) => {
   let fontStyle = styles.container;
 
   switch (fontWeight) {
@@ -67,14 +92,11 @@ function Text({ style, text, lines, fontWeight }) {
   return (
     <TextNative
       style={[fontStyle, style]}
-      {...(lines && {
-        numberOfLines: lines,
-        ellipsizeMode: 'tail',
-      })}
+      numberOfLines={lines}
+      ellipsizeMode={lines ? 'tail' : undefined}
     >
-      {text}
+      {children}
     </TextNative>
   );
-}
-
+};
 export default Text;

@@ -1,9 +1,9 @@
 module.exports = {
   presets: ['babel-preset-expo'],
   plugins: [
-    'nativewind/babel',
-    '@babel/plugin-proposal-export-namespace-from',
+    // 'nativewind/babel',
     'react-native-reanimated/plugin',
+    ['babel-plugin-react-docgen-typescript', { exclude: 'node_modules' }],
     [
       'module-resolver',
       {

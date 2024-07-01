@@ -40,6 +40,14 @@ module.exports = {
       1,
       { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
     ],
+    'react/require-default-props': [
+      {
+        forbidDefaultForRequired: true,
+        classes: 'defaultProps' | 'ignore',
+        functions: 'defaultProps' | 'defaultArguments' | 'ignore',
+        ignoreFunctionalComponents: true,
+      },
+    ],
   },
   ignorePatterns: ['node_modules/**'],
 };

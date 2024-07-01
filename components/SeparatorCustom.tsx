@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TextStyle, ViewStyle } from 'react-native';
 import Text from './TextCustom';
 
 const styles = StyleSheet.create({
@@ -27,7 +27,19 @@ const styles = StyleSheet.create({
   },
 });
 
-const getPositionStyle = (position) => {
+type SeparatorPosition = 'start' | 'middle' | 'end' | 'none';
+
+interface SeparatorCustomProps {
+  text?: string;
+  position?: SeparatorPosition;
+  width?: number;
+  color?: string;
+  textColor?: string;
+  propsText?: TextStyle; // Sử dụng TextStyle thay vì ViewStyle
+  propsSeparator?: ViewStyle;
+}
+
+const getPositionStyle = (position: SeparatorPosition): TextStyle => {
   switch (position) {
     case 'start':
       return styles.textStart;
@@ -40,7 +52,7 @@ const getPositionStyle = (position) => {
   }
 };
 
-function SeparatorCustom({
+const SeparatorCustom: React.FC<SeparatorCustomProps> = ({
   text,
   position = 'none',
   width = 1,
@@ -48,20 +60,20 @@ function SeparatorCustom({
   textColor = '#737373',
   propsText,
   propsSeparator,
-}) {
-  const separatorStyle = {
+}) => {
+  const separatorStyle: ViewStyle = {
     backgroundColor: color,
     height: width,
     ...propsSeparator,
   };
 
-  const textStyle = {
+  const textStyle: TextStyle = {
     color: textColor,
     ...propsText,
   };
 
   const renderText = position !== 'none' && text && (
-    <Text style={[textStyle, getPositionStyle(position)]} text={text} />
+    <Text style={[textStyle, getPositionStyle(position)]} children={text} />
   );
 
   return (
@@ -75,6 +87,6 @@ function SeparatorCustom({
       {position === 'end' && renderText}
     </View>
   );
-}
+};
 
 export default SeparatorCustom;
