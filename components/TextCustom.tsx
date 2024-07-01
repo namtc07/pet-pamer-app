@@ -51,7 +51,7 @@ interface CustomTextProps extends TextProps {
   style?: TextStyle | TextStyle[];
 }
 
-export const Text: React.FC<CustomTextProps> = ({
+const Text: React.FC<CustomTextProps> = ({
   style,
   children,
   lines,
@@ -99,3 +99,4 @@ export const Text: React.FC<CustomTextProps> = ({
     </TextNative>
   );
 };
+export default Text;

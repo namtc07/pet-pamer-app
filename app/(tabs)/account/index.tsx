@@ -11,8 +11,8 @@ import {
 import { LoginManager } from 'react-native-fbsdk-next';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { PlatformTouchable } from '@/components';
 import { AuthContext } from '@/context/AuthContext';
+import PlatformTouchable from '@/components/PlatformTouchable';
 
 const styles = StyleSheet.create({
   container: {

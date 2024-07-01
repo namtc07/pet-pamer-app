@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 import { useState } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import DateTimePicker from 'react-native-ui-datepicker';
-import ButtonBlockCustom from './menu-tab-block';
 import Svgs from '@/assets/svgs';
+import MenuTabBlock from './menu-tab-block';
 
 interface Range {
   startDate?: Date;
@@ -82,7 +82,7 @@ function DatePicker() {
         weekDaysTextStyle={styles.weekDaysTextStyle as any} // Adjust as per the actual prop type
       />
       <View style={styles.schedule}>
-        <ButtonBlockCustom
+        <MenuTabBlock
           title="Schedule"
           icon={<Svgs.IconClock />}
           source={undefined}

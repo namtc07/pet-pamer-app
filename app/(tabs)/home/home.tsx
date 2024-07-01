@@ -12,12 +12,13 @@ import {
 import Carousel from 'react-native-reanimated-carousel';
 import Icon from 'react-native-vector-icons/Ionicons';
 import DatePicker from '@/app/_components/date-picker';
-import ButtonBlockCustom from '@/app/_components/menu-tab-block';
+import MenuTabBlock from '@/app/_components/menu-tab-block';
 import ProductList from '@/app/_components/product-list';
 import Svgs from '@/assets/svgs';
-import { StatusbarCustom } from '@/components';
 import { createBackgroundColorInterpolation, fadeIn, fadeOut } from './helpers';
 import { banners, styles } from './styles';
+import StatusbarCustom from '@/components/StatusbarCustom';
+import { StatusBarStyle } from 'expo-status-bar';
 
 const HomeScreen: React.FC = () => {
   const scrollViewRef = useRef<ScrollView>(null);
@@ -84,7 +85,7 @@ const HomeScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <StatusbarCustom color={colorStatus} />
+      <StatusbarCustom color={colorStatus as StatusBarStyle} />
       <Animated.View style={[styles.header, { backgroundColor }]}>
         <Animated.View
           style={{
@@ -167,7 +168,7 @@ const HomeScreen: React.FC = () => {
             ))}
           </View>
           <View style={styles.menuTabBLock}>
-            <ButtonBlockCustom mode="multi" source={menuTabs} />
+            <MenuTabBlock mode="multi" source={menuTabs} />
           </View>
         </View>
         <View style={[styles.content]}>

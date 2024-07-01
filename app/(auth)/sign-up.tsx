@@ -10,13 +10,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import {
-  LoaderCustom,
-  PlatformTouchable,
-  SeparatorCustom,
-  StatusbarCustom,
-  Text,
-} from '@/components';
+
 import {
   // checkButtonState,
   loadStoredData,
@@ -27,6 +21,11 @@ import { styles } from './styles';
 import Svgs from '@/assets/svgs';
 import FacebookLogin from '../_components/FacebookLogin';
 import { AuthContext } from '@/context/AuthContext';
+import StatusbarCustom from '@/components/StatusbarCustom';
+import Text from '@/components/TextCustom';
+import PlatformTouchable from '@/components/PlatformTouchable';
+import SeparatorCustom from '@/components/SeparatorCustom';
+import LoaderCustom from '@/components/LoaderCustom';
 
 interface SignupProps {}
 

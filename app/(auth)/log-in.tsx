@@ -11,28 +11,23 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  ViewStyle,
-  TextStyle,
-  TextInputProps,
-  TouchableOpacityProps,
 } from 'react-native';
 import {
-  // checkButtonState,
+  checkButtonState,
   loadStoredData,
   saveDataToStorage,
   validateEmail,
 } from '@/app/_utils/authHelpers';
-import {
-  LoaderCustom,
-  PlatformTouchable,
-  SeparatorCustom,
-  StatusbarCustom,
-  Text,
-} from '@/components';
+
 import { styles } from './styles';
 import Svgs from '@/assets/svgs';
 import FacebookLogin from '../_components/FacebookLogin';
 import { AuthContext } from '@/context/AuthContext';
+import StatusbarCustom from '@/components/StatusbarCustom';
+import Text from '@/components/TextCustom';
+import PlatformTouchable from '@/components/PlatformTouchable';
+import SeparatorCustom from '@/components/SeparatorCustom';
+import LoaderCustom from '@/components/LoaderCustom';
 
 interface LoginProps {}
 
@@ -50,19 +45,19 @@ const Login: React.FC<LoginProps> = () => {
   }, []);
 
   useEffect(() => {
-    // checkButtonState(email, password, emailValid, setButtonDisabled);
+    checkButtonState(email, password, emailValid, setButtonDisabled);
     validateEmail(email, setEmailValid);
   }, [email, password]);
 
   const handleEmailChange = (text: string) => {
     setEmail(text);
-    // checkButtonState(text, password, emailValid, setButtonDisabled);
+    checkButtonState(text, password, emailValid, setButtonDisabled);
     validateEmail(text, setEmailValid);
   };
 
   const handlePasswordChange = (text: string) => {
     setPassword(text);
-    // checkButtonState(email, text, emailValid, setButtonDisabled);
+    checkButtonState(email, text, emailValid, setButtonDisabled);
   };
 
   const handleLogin = () => {

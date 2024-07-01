@@ -8,7 +8,7 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native';
-import { Text } from './TextCustom';
+import Text from './TextCustom';
 
 const commonStyles = StyleSheet.create({
   button: {
@@ -58,7 +58,7 @@ interface PlatformTouchableProps {
   icon?: React.ReactNode;
 }
 
-export const PlatformTouchable: React.FC<PlatformTouchableProps> = ({
+const PlatformTouchable: React.FC<PlatformTouchableProps> = ({
   onPress,
   children,
   style,
@@ -102,3 +102,5 @@ export const PlatformTouchable: React.FC<PlatformTouchableProps> = ({
     </View>
   );
 };
+
+export default PlatformTouchable;

@@ -1,3 +1,4 @@
+import Text from '@/components/TextCustom';
 import React from 'react';
 import {
   Platform,
@@ -6,14 +7,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Text } from '@/components';
 
 interface Tab {
   icon: React.ReactNode; // Assuming icon is a React component or element
   title: string;
 }
 
-interface ButtonBlockCustomProps {
+interface MenuTabBlockProps {
   mode?: 'single' | 'multi';
   icon?: React.ReactNode;
   title?: string;
@@ -66,31 +66,56 @@ const styles = StyleSheet.create({
   },
 });
 
-const ButtonBlockCustom: React.FC<ButtonBlockCustomProps> = ({
-  mode = 'single',
+const MenuTabBlock: React.FC<MenuTabBlockProps> = ({
   icon,
   title,
   source,
+  mode = 'single',
 }) => {
+  const renderTab = (tab: Tab, index: number) => (
+    <View key={index} style={styles.tabContainer}>
+      <View style={styles.tabContent}>
+        <View style={styles.iconContainer}>{tab?.icon}</View>
+        <Text style={styles.title}>{tab?.title}</Text>
+      </View>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       {Platform.OS === 'ios' ? (
-        source?.map((tab, index) => (
-          <TouchableOpacity key={index} style={styles.tabContainer}>
+        mode === 'multi' ? (
+          source?.map((tab, index) => (
+            <TouchableOpacity key={index} style={styles.tabContainer}>
+              {renderTab(tab, index)}
+            </TouchableOpacity>
+          ))
+        ) : (
+          <TouchableOpacity style={styles.tabContainer}>
             <View style={styles.tabContent}>
-              <View style={styles.iconContainer}>{tab?.icon}</View>
-              <Text style={styles.title} children={tab?.title} />
+              <View style={styles.iconContainer}>{icon}</View>
+              <Text style={styles.title}>{title}</Text>
             </View>
           </TouchableOpacity>
+        )
+      ) : mode === 'multi' ? (
+        source?.map((tab, index) => (
+          <TouchableNativeFeedback
+            key={index}
+            background={TouchableNativeFeedback.Ripple('#000', false)}
+          >
+            {renderTab(tab, index)}
+          </TouchableNativeFeedback>
         ))
       ) : (
         <TouchableNativeFeedback
-          style={styles.tabContainer}
           background={TouchableNativeFeedback.Ripple('#000', false)}
         >
-          <View style={styles.tabContent}>
-            <View style={styles.iconContainer}>{icon}</View>
-            <Text style={styles.title} children={title} />
+          <View style={styles.tabContainer}>
+            <View style={styles.tabContent}>
+              <View style={styles.iconContainer}>{icon}</View>
+              <Text style={styles.title}>{title}</Text>
+            </View>
           </View>
         </TouchableNativeFeedback>
       )}
@@ -98,4 +123,4 @@ const ButtonBlockCustom: React.FC<ButtonBlockCustomProps> = ({
   );
 };
 
-export default ButtonBlockCustom;
+export default MenuTabBlock;

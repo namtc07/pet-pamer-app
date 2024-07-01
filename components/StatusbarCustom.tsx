@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { StatusBar, StatusBarProps } from 'expo-status-bar';
-
-// Định nghĩa lại kiểu dữ liệu StatusBarStyle từ StatusBarProps
-export type StatusBarStyle = 'auto' | 'inverted' | 'light' | 'dark';
+import { StatusBar, StatusBarProps, StatusBarStyle } from 'expo-status-bar';
 
 interface StatusbarCustomProps extends StatusBarProps {
   color?: StatusBarStyle; // Sử dụng optional để cho phép không truyền vào
 }
 
-export const StatusbarCustom: React.FC<StatusbarCustomProps> = ({
+const StatusbarCustom: React.FC<StatusbarCustomProps> = ({
   color = 'auto',
   ...props
 }) => {
@@ -23,3 +20,5 @@ export const StatusbarCustom: React.FC<StatusbarCustomProps> = ({
   // Trả về StatusBar với style và các props khác
   return <StatusBar animated style={statusBarStyle} {...props} />;
 };
+
+export default StatusbarCustom;

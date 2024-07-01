@@ -7,8 +7,10 @@ import {
   View,
 } from 'react-native';
 
-import { PlatformTouchable, StatusbarCustom, Text } from '@/components';
 import Images from '@/assets/images';
+import StatusbarCustom from '@/components/StatusbarCustom';
+import Text from '@/components/TextCustom';
+import PlatformTouchable from '@/components/PlatformTouchable';
 
 interface AppProps {}
 

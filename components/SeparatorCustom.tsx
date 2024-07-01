@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, TextStyle, ViewStyle } from 'react-native';
-import { Text } from './TextCustom';
+import Text from './TextCustom';
 
 const styles = StyleSheet.create({
   container: {
@@ -52,7 +52,7 @@ const getPositionStyle = (position: SeparatorPosition): TextStyle => {
   }
 };
 
-export const SeparatorCustom: React.FC<SeparatorCustomProps> = ({
+const SeparatorCustom: React.FC<SeparatorCustomProps> = ({
   text,
   position = 'none',
   width = 1,
@@ -73,7 +73,7 @@ export const SeparatorCustom: React.FC<SeparatorCustomProps> = ({
   };
 
   const renderText = position !== 'none' && text && (
-    <Text style={[textStyle, getPositionStyle(position)]}>{text}</Text>
+    <Text style={[textStyle, getPositionStyle(position)]} children={text} />
   );
 
   return (
@@ -88,3 +88,5 @@ export const SeparatorCustom: React.FC<SeparatorCustomProps> = ({
     </View>
   );
 };
+
+export default SeparatorCustom;

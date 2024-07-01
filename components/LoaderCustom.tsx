@@ -14,10 +14,7 @@ interface LoaderCustomProps {
   visible: boolean;
 }
 
-export const LoaderCustom: React.FC<LoaderCustomProps> = ({
-  isLoading,
-  visible,
-}) => {
+const LoaderCustom: React.FC<LoaderCustomProps> = ({ isLoading, visible }) => {
   const osName = Platform.OS;
   const screenHeight = Dimensions.get('screen').height;
 
@@ -44,3 +41,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+export default LoaderCustom;

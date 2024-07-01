@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, Platform, StyleSheet, View } from 'react-native';
 import Images from '@/assets/images';
 import Svgs from '@/assets/svgs';
-import { Text } from '@/components';
+import Text from '@/components/TextCustom';
 
 interface ProductCardProps {
   modeRow?: boolean;
