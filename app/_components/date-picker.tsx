@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
   selectedTextStyle: {
     color: '#fff',
-    fontFamily: 'bold', // Assuming 'bold' is a valid font family
+    fontFamily: 'bold',
   },
   schedule: {
     position: 'absolute',
@@ -53,16 +53,11 @@ function DatePicker() {
     endDate: undefined,
   });
 
-  const handleDateChange: any = ({
-    startDate,
-    endDate,
-  }: {
-    startDate?: Date,
-    endDate?: Date,
-  }) => {
-    if (startDate && endDate) {
-      setRange({ startDate, endDate });
-    }
+  const handleDateChange = (params: any) => {
+    setRange({
+      startDate: params?.startDate,
+      endDate: params?.endDate,
+    });
   };
 
   const yesterday = dayjs().subtract(1, 'day').toDate();
@@ -79,14 +74,10 @@ function DatePicker() {
         minDate={yesterday}
         selectedItemColor="#FFBA69"
         firstDayOfWeek={1}
-        weekDaysTextStyle={styles.weekDaysTextStyle as any} // Adjust as per the actual prop type
+        weekDaysTextStyle={styles.weekDaysTextStyle as any}
       />
       <View style={styles.schedule}>
-        <MenuTabBlock
-          title="Schedule"
-          icon={<Svgs.IconClock />}
-          source={undefined}
-        />
+        <MenuTabBlock title="Schedule" icon={<Svgs.IconClock />} />
       </View>
     </View>
   );

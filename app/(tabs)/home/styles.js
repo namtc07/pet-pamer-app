@@ -82,6 +82,8 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 15,
     alignSelf: 'center',
+    justifyContent: 'center',
+    width: '100%',
   },
   content: {
     marginHorizontal: 20,

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 interface Tab {
-  icon: React.ReactNode; // Assuming icon is a React component or element
+  icon: React.ReactNode;
   title: string;
 }
 
@@ -24,18 +24,19 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     position: 'relative',
+    justifyContent: 'space-between',
+    width: '100%',
+    paddingHorizontal: 20,
     ...Platform.select({
       ios: {},
-      android: {
-        gap: 12,
-      },
+      android: {},
     }),
   },
   tabContainer: {
     borderRadius: 12,
-    paddingHorizontal: 12,
     height: 40,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   tabContent: {
     flexDirection: 'row',
